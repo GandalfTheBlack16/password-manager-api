@@ -1,25 +1,30 @@
 {
-  "name": "typescript-scaffold",
+  "name": "password-manager-api",
   "version": "1.0.0",
-  "description": "Basic template to generate Node+Typescript+Nodemon apps quickly",
+  "description": "API for Personal credentials managing",
   "type": "module",
   "scripts": {
-    "start": "ts-node-esm src/index.ts",
-    "dev": "nodemon",
-    "build": "tsc",
-    "test": "jest"
+    "dev": "vite",
+    "build": "vite build"
   },
   "keywords": [],
   "author": "GandalfTheBlack16",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "devDependencies": {
-    "@jest/globals": "^29.3.1",
-    "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.18",
-    "jest": "^29.3.1",
-    "nodemon": "^2.0.20",
-    "ts-jest": "^29.0.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.4"
+    "@swc/core": "^1.3.62",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^35.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.9",
+    "vite-plugin-node": "^3.0.2"
+  },
+  "dependencies": {
+    "express": "4.18.2"
   }
 }

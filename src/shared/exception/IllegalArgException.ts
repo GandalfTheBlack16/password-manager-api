@@ -1,4 +1,4 @@
-export class IllegalArgsException extends Error {
+export class IllegalArgException extends Error {
   constructor (message: string) {
     super(`Illegal argument exception: ${message}`)
   }

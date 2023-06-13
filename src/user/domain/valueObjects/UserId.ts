@@ -1,5 +1,5 @@
 import { validate } from 'uuid'
-import { IllegalArgsException } from '../../../shared/exception/IllegalArgsException.js'
+import { IllegalArgException } from '../../../shared/exception/IllegalArgException.js'
 
 export class UserId {
   private readonly value: string
@@ -15,7 +15,7 @@ export class UserId {
 
   private validateId (): void {
     if (!validate(this.value)) {
-      throw new IllegalArgsException('Invalid UUID provided')
+      throw new IllegalArgException('Invalid UUID provided')
     }
   }
 }

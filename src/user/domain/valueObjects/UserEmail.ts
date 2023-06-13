@@ -1,4 +1,4 @@
-import { InvalidEmailAddressException } from '../../../shared/exception/InvalidEmailAddressException.js'
+import { IllegalArgException } from '../../../shared/exception/IllegalArgException.js'
 
 export class UserEmail {
   private readonly value: string
@@ -11,7 +11,7 @@ export class UserEmail {
 
   private validateEmail (): void {
     if (!this.regex.test(this.value.toLowerCase())) {
-      throw new InvalidEmailAddressException(`Invalid address provided ${this.value}`)
+      throw new IllegalArgException(`Invalid address provided ${this.value}`)
     }
   }
 

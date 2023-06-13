@@ -4,6 +4,7 @@
   "description": "API for Personal credentials managing",
   "type": "module",
   "scripts": {
+    "test": "jest --coverage",
     "dev": "nodemon --exec node --loader ts-node/esm src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
@@ -13,6 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.17",
+    "@types/jest": "29.5.2",
     "@types/node": "^20.3.0",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
@@ -21,7 +23,9 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
+    "jest": "29.5.0",
     "nodemon": "^2.0.22",
+    "ts-jest": "29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.3"
   },

@@ -1,10 +1,10 @@
 import { type User } from '../User.js'
 
 export interface UserRepository {
-  getUsers: () => User[]
-  getUserById: (id: string) => User
-  getUserByEmail: (email: string) => User
-  createUser: (user: User) => User
-  updateUser: (user: User) => User
-  deleteUser: (user: User) => void
+  getUsers: () => Promise<User[]>
+  getUserById: (id: string) => Promise<User | null>
+  getUserByEmail: (email: string) => Promise<User | null>
+  createUser: (user: User) => Promise<User | null>
+  updateUser: (user: User) => Promise<User | null>
+  deleteUser: (user: User) => Promise<void>
 }

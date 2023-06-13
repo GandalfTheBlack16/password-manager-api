@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import { HealthCheck } from './controllers/health.js'
+import { HealthCheck } from './health.js'
 
 dotenv.config()
 

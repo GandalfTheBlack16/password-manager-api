@@ -1,5 +1,5 @@
 import { validate } from 'uuid'
-import { IllegalArgException } from '../../../shared/exception/IllegalArgException.js'
+import { IllegalArgException } from '../../../shared/domain/exception/IllegalArgException.js'
 
 export class UserId {
   private readonly value: string

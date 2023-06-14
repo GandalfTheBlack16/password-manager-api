@@ -1,4 +1,4 @@
-import { IllegalArgException } from '../../../src/shared/exception/IllegalArgException.js'
+import { IllegalArgException } from '../../../src/shared/domain/exception/IllegalArgException.js'
 import { User } from '../../../src/user/domain/User.js'
 import { v4 as uuid } from 'uuid'
 

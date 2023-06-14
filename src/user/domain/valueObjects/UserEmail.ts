@@ -1,4 +1,4 @@
-import { IllegalArgException } from '../../../shared/exception/IllegalArgException.js'
+import { IllegalArgException } from '../../../shared/domain/exception/IllegalArgException.js'
 
 export class UserEmail {
   private readonly value: string

@@ -1,4 +1,4 @@
-import { UserAlreadyExistsException } from '../../shared/exception/UserAlreadyExistsException.js'
+import { UserAlreadyExistsException } from '../../shared/domain/exception/UserAlreadyExistsException.js'
 import { User } from '../domain/User.js'
 import { type UserRepository } from '../domain/repositories/UserRepository.js'
 import { type CreateUserDto } from '../user.js'

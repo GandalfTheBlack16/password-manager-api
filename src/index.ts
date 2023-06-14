@@ -1,7 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { HealthCheck } from './health.js'
-import { logger } from './shared/logger/Logger.js'
+import { logger } from './shared/infrastructure/logger/Logger.js'
 import { pinoHttp } from 'pino-http'
 
 dotenv.config()

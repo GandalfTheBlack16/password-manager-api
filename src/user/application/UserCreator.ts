@@ -1,7 +1,7 @@
 import { UserAlreadyExistsException } from '../../shared/domain/exception/UserAlreadyExistsException.js'
 import { User } from '../domain/User.js'
 import { type UserRepository } from '../domain/repositories/UserRepository.js'
-import { type CreateUserDto } from '../user.js'
+import { type CreateUserDto } from './user-dto.js'
 import { v4 as UUID } from 'uuid'
 
 export class UserCreator {

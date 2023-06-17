@@ -1,9 +1,9 @@
-import { type Request, type Response } from 'express'
+import { type Response } from 'express'
+import { type MongoConnection } from './user/infrastructure/db/MongoConnection.js'
 
-export function HealthCheck (req: Request, res: Response) {
-  const port = Number(req.headers.host?.split(':')[1]) ?? 'UNKNOWN'
+export function HealthCheck (res: Response, db: MongoConnection) {
   res.json({
-    status: 'UP',
-    port
+    application: 'UP',
+    database: db.getDataBaseInfo() ? 'UP' : 'DOWN'
   })
 }

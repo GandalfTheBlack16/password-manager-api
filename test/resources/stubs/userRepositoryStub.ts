@@ -18,6 +18,11 @@ export class UserRepositoryStub implements UserRepository {
     return user ?? null
   }
 
+  async getUserByUsername (username: string) {
+    const user = this.userList.find(item => item.getUsername === username)
+    return user ?? null
+  }
+
   async createUser (user: User) {
     if (this.userList.find(item => item.getId === user.getId) ?? this.userList.find(item => item.getEmail === user.getEmail)) {
       return null
@@ -35,8 +40,8 @@ export class UserRepositoryStub implements UserRepository {
     return user
   }
 
-  async deleteUser (user: User) {
-    const updated = this.userList.filter(item => item.getId !== user.getId)
+  async deleteUser (id: string) {
+    const updated = this.userList.filter(item => item.getId !== id)
     this.userList = updated
   }
 }

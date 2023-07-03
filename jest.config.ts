@@ -15,7 +15,8 @@ const config: Config = {
         useESM: true
       }
     ]
-  }
+  },
+  collectCoverageFrom: ['src/**/*.ts']
 }
 
 export default config

@@ -16,6 +16,7 @@ const config: Config = {
       }
     ]
   },
+  transformIgnorePatterns: ['node_modules/(?!(mongoose,pino)/)'],
   collectCoverageFrom: ['src/**/*.ts']
 }
 

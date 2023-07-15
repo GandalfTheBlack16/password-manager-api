@@ -9,39 +9,52 @@ export class UserRepositoryStub implements UserRepository {
   }
 
   async getUserById (id: string) {
-    const user = this.userList.find(item => item.getId === id)
-    return user ?? null
+    return await new Promise<User | null>((resolve) => {
+      const user = this.userList.find(item => item.getId === id)
+      resolve(user ?? null)
+    })
   }
 
   async getUserByEmail (email: string) {
-    const user = this.userList.find(item => item.getEmail === email)
-    return user ?? null
+    return await new Promise<User | null>((resolve) => {
+      const user = this.userList.find(item => item.getEmail === email)
+      resolve(user ?? null)
+    })
   }
 
   async getUserByUsername (username: string) {
-    const user = this.userList.find(item => item.getUsername === username)
-    return user ?? null
+    return await new Promise<User | null>((resolve) => {
+      const user = this.userList.find(item => item.getUsername === username)
+      resolve(user ?? null)
+    })
   }
 
   async createUser (user: User) {
-    if (this.userList.find(item => item.getId === user.getId) ?? this.userList.find(item => item.getEmail === user.getEmail)) {
-      return null
-    }
-    this.userList.push(user)
-    return user
+    return await new Promise<User | null>((resolve) => {
+      if (this.userList.find(item => item.getId === user.getId) ?? this.userList.find(item => item.getEmail === user.getEmail)) {
+        resolve(null)
+      }
+      this.userList.push(user)
+      resolve(user)
+    })
   }
 
   async updateUser (user: User) {
-    const index = this.userList.indexOf(user)
-    if (index < 0) {
-      return null
-    }
-    this.userList[index] = user
-    return user
+    return await new Promise<User | null>((resolve) => {
+      const index = this.userList.indexOf(user)
+      if (index < 0) {
+        resolve(null)
+      }
+      this.userList[index] = user
+      resolve(user)
+    })
   }
 
   async deleteUser (id: string) {
-    const updated = this.userList.filter(item => item.getId !== id)
-    this.userList = updated
+    await new Promise<void>((resolve) => {
+      const updated = this.userList.filter(item => item.getId !== id)
+      this.userList = updated
+      resolve()
+    })
   }
 }

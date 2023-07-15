@@ -4,8 +4,9 @@
   "description": "API for Personal credentials managing",
   "type": "module",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "dev": "nodemon --exec node --loader ts-node/esm src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"

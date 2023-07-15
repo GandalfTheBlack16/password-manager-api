@@ -1,9 +1,9 @@
 import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
-import { type UserListFinder } from '../../../application/UserListFinder.js'
+import { type UserFinder } from '../../../application/UserFinder.js'
 
 export class FindUserController implements IExpressController {
-  constructor (private readonly userListFinder: UserListFinder) {}
+  constructor (private readonly userListFinder: UserFinder) {}
 
   async handleRequest (req: Request, res: Response) {
     try {

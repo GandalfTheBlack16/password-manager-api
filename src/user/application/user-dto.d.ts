@@ -3,3 +3,9 @@ export interface CreateUserDto {
   username: string
   password: string
 }
+
+export interface FindUserDto {
+  id?: string
+  email?: string
+  username?: string
+}

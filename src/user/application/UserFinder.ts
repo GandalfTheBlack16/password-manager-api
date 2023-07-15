@@ -1,5 +1,5 @@
 import { type UserRepository } from '../domain/repositories/UserRepository.js'
-import { type FindUserDto } from './user-dto.js'
+import { type FindUserDto } from './user-types.js'
 
 enum PropType {
   ID,

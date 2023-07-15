@@ -1,4 +1,4 @@
-import { UserAlreadyExistsException } from '../../../src/shared/domain/exception/UserAlreadyExistsException.js'
+import { UserAlreadyExistsException } from '../../../src/user/application/exception/UserAlreadyExistsException.js'
 import { UserCreator } from '../../../src/user/application/UserCreator.js'
 import { UserRepositoryStub } from '../../resources/stubs/userRepositoryStub.js'
 

@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { type UserCreator } from '../../../application/UserCreator.js'
 import { IllegalArgException } from '../../../../shared/domain/exception/IllegalArgException.js'
-import { UserAlreadyExistsException } from '../../../../shared/domain/exception/UserAlreadyExistsException.js'
+import { UserAlreadyExistsException } from '../../../application/exception/UserAlreadyExistsException.js'
 
 export class CreateUserController implements IExpressController {
   constructor (private readonly userCreator: UserCreator) {}

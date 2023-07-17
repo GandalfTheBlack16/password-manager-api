@@ -1,6 +1,6 @@
 import { UserAlreadyExistsException } from '../../../src/user/application/exception/UserAlreadyExistsException.js'
 import { UserCreator } from '../../../src/user/application/UserCreator.js'
-import { UserRepositoryStub } from '../../resources/stubs/userRepositoryStub.js'
+import { UserRepositoryStub } from './resources/userRepositoryStub.js'
 
 describe('User create use-case', () => {
   let userCreator: UserCreator

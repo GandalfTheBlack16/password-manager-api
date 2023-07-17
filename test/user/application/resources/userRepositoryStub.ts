@@ -1,5 +1,5 @@
-import { type User } from '../../../src/user/domain/User.js'
-import { type UserRepository } from '../../../src/user/domain/repositories/UserRepository.js'
+import { type User } from '../../../../src/user/domain/User.js'
+import { type UserRepository } from '../../../../src/user/domain/repositories/UserRepository.js'
 
 export class UserRepositoryStub implements UserRepository {
   private userList: User[] = []

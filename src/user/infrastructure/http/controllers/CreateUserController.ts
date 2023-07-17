@@ -12,9 +12,9 @@ export class CreateUserController implements IExpressController {
 
     try {
       const user = await this.userCreator.run({ email, username, password })
-      return res.json({
-        status: 'Succes',
-        message: 'User created succesfully',
+      return res.status(201).json({
+        status: 'Success',
+        message: 'User created successfully',
         user: {
           email: user.getEmail,
           username: user.getUsername

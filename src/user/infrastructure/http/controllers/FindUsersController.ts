@@ -1,15 +1,25 @@
 import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { type UserFinder } from '../../../application/UserFinder.js'
+import { type FindUserDto } from '../../../application/user-types.js'
 
 export class FindUserController implements IExpressController {
-  constructor (private readonly userListFinder: UserFinder) {}
+  constructor (private readonly userFinder: UserFinder) {}
 
   async handleRequest (req: Request, res: Response) {
     try {
-      const userList = await this.userListFinder.run()
+      const { id, email, username }: FindUserDto = req.query
+      const userList = await this.userFinder.run({ id, email, username })
+      if (userList.length === 0) {
+        return res
+          .status(404)
+          .json({
+            status: 'Success',
+            message: 'Without results'
+          })
+      }
       return res.json({
-        status: 'Succes',
+        status: 'Success',
         list: userList
       })
     } catch (error) {

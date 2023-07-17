@@ -1,6 +1,6 @@
 import { UserFinder } from '../../../src/user/application/UserFinder.js'
 import { User } from '../../../src/user/domain/User.js'
-import { UserRepositoryStub } from '../../resources/stubs/userRepositoryStub.js'
+import { UserRepositoryStub } from './resources/userRepositoryStub.js'
 import { v4 as UUID } from 'uuid'
 
 describe('Fetch user(s) use-case', () => {

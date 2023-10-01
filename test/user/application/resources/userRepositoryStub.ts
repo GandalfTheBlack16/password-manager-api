@@ -31,7 +31,9 @@ export class UserRepositoryStub implements UserRepository {
 
   async createUser (user: User) {
     return await new Promise<User | null>((resolve) => {
-      if (this.userList.find(item => item.getId === user.getId) ?? this.userList.find(item => item.getEmail === user.getEmail)) {
+      if (this.userList.find(item => item.getId === user.getId) ??
+      this.userList.find(item => item.getEmail === user.getEmail) ??
+      this.userList.find(item => item.getUsername === user.getUsername)) {
         resolve(null)
       }
       this.userList.push(user)

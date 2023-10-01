@@ -9,3 +9,9 @@ export interface FindUserDto {
   email?: string
   username?: string
 }
+
+export interface LoginUserDto {
+  email?: string
+  username?: string
+  password: string
+}

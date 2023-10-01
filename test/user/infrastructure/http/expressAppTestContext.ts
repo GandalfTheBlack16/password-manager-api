@@ -6,27 +6,33 @@ import { UserFinder } from '../../../../src/user/application/UserFinder.js'
 import { UserRepositoryStub } from '../../application/resources/userRepositoryStub.js'
 import { UserCreator } from '../../../../src/user/application/UserCreator.js'
 
-const app = express()
+function initContext () {
+  const app = express()
 
-const userRouter = express.Router()
+  const userRouter = express.Router()
 
-const userRepository = new UserRepositoryStub()
+  const userRepository = new UserRepositoryStub()
 
-const userFinder = new UserFinder(userRepository)
-const userCreator = new UserCreator(userRepository)
+  const userFinder = new UserFinder(userRepository)
+  const userCreator = new UserCreator(userRepository)
 
-const findUsersController = new FindUserController(userFinder)
-const createUserController = new CreateUserController(userCreator)
+  const findUsersController = new FindUserController(userFinder)
+  const createUserController = new CreateUserController(userCreator)
 
-userRouter.get('/', findUsersController.handleRequest.bind(findUsersController))
+  userRouter.get('/', findUsersController.handleRequest.bind(findUsersController))
 
-userRouter.post('/', createUserController.handleRequest.bind(createUserController))
+  userRouter.post('/', createUserController.handleRequest.bind(createUserController))
 
-app.use(express.json())
+  app.use(express.json())
 
-app.use('/api/user', userRouter)
+  app.use('/api/user', userRouter)
+
+  return {
+    app,
+    userRepository
+  }
+}
 
 export {
-  app,
-  userRepository
+  initContext
 }

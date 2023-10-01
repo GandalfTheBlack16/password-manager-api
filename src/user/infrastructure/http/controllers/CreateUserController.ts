@@ -21,7 +21,6 @@ export class CreateUserController implements IExpressController {
         }
       })
     } catch (error) {
-      console.log(error)
       if (error instanceof IllegalArgException) {
         return res.status(400).json({
           status: 'Validation error',

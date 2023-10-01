@@ -21,3 +21,9 @@ export interface JwtPayload {
   username: string
   email: string
 }
+
+export interface LoginUserResponseDto {
+  status: string
+  message?: string
+  accessToken?: string
+}

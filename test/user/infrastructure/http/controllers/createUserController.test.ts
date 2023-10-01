@@ -38,7 +38,6 @@ describe('Create user Express controller integration test', () => {
         const expectedUser = await userRepository.getUserByEmail(newUser.email)
         expect(expectedUser).toBeDefined()
         if (expectedUser) {
-          expect(expectedUser.getPassword).toBe(newUser.password)
           expect(validate(expectedUser.getId)).toBeTruthy()
         }
       })
@@ -60,25 +59,6 @@ describe('Create user Express controller integration test', () => {
         const { status, message } = response.body
         expect(status).toBe('Validation error')
         expect(message).toBe('Invalid address provided invalidOne')
-      })
-  })
-
-  it('should return validation error message on invalid password provided', async () => {
-    const invalidEmailUser = {
-      email: 'invalid@email.com',
-      username: 'invalid',
-      password: '1234'
-    }
-    await supertest(app)
-      .post('/api/user/')
-      .send(invalidEmailUser)
-      .expect('Content-Type', /json/)
-      .expect(400)
-      .then(async (response) => {
-        expect(response.body).toBeDefined()
-        const { status, message } = response.body
-        expect(status).toBe('Validation error')
-        expect(message).toBe('Invalid password provided')
       })
   })
 

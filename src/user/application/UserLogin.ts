@@ -1,6 +1,6 @@
 import { type UserRepository } from '../domain/repositories/UserRepository.js'
-import { pbkdf2Sync } from 'crypto'
-import { type JwtPayload } from './user-types.js'
+import crypto from 'crypto'
+import { type LoginUserResponseDto, type JwtPayload } from './user-types.js'
 import jwt from 'jsonwebtoken'
 
 export class UserLogin {
@@ -14,7 +14,7 @@ export class UserLogin {
   private readonly PASSWORD_SALT = process.env.PASSWORD_SALT ?? '00000000'
   private readonly JWT_SECRET = process.env.JWT_SECRET ?? '00000000'
 
-  async run ({ username, email, password }: { username: string, email: string, password: string }) {
+  async run ({ username, email, password }: { username: string, email: string, password: string }): Promise<LoginUserResponseDto> {
     const user = !username
       ? await this.userRepository.getUserByEmail(email)
       : await this.userRepository.getUserByUsername(username)
@@ -36,7 +36,7 @@ export class UserLogin {
   }
 
   private verifyPassword (actualPassword: string, expectedPassword: string) {
-    const hashedPassword = pbkdf2Sync(actualPassword, this.PASSWORD_SALT, 10000, 64, 'sha512').toString('hex')
+    const hashedPassword = crypto.pbkdf2Sync(actualPassword, this.PASSWORD_SALT, 10000, 64, 'sha512').toString('hex')
     return hashedPassword === expectedPassword
   }
 

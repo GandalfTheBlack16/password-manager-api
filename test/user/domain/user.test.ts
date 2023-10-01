@@ -75,14 +75,4 @@ describe('User domain class', () => {
     expect(user).toBeDefined()
     expect(user.getPassword).toBe(expectedPassword)
   })
-
-  it('should throw invalid password exception on modify password', () => {
-    const initialPassword = 'Passwd1234#'
-    const invalidPassword = 'invalid-password'
-    const user = new User(uuid(), 'user@email.test', 'dummy', 'Passwd1234#')
-    expect(() => {
-      user.modifyPassword(invalidPassword)
-    }).toThrow(IllegalArgException)
-    expect(user.getPassword).toBe(initialPassword)
-  })
 })

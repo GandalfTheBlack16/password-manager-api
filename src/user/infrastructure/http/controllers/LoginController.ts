@@ -19,8 +19,8 @@ export class LoginController implements IExpressController {
         message: 'Password is not provided'
       })
     }
-    const user = await this.userLoger.run({ username, email, password })
-    console.log(user)
-    return res.json(user)
+    const response = await this.userLoger.run({ username, email, password })
+    const status = response?.status === 'Unauthorized' ? 401 : 200
+    return res.status(status).json(response)
   }
 }

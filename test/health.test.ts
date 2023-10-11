@@ -1,5 +1,5 @@
 import { type Response } from 'express'
-import { MongoConnection } from '../src/user/infrastructure/db/MongoConnection.js'
+import { MongoConnection } from '../src/shared/infrastructure/db/MongoConnection.js'
 import { HealthCheck } from '../src/health.js'
 
 describe('Healthcheck controller', () => {

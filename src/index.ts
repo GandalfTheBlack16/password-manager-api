@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import { HealthCheck } from './health.js'
 import { logger } from './shared/infrastructure/logger/Logger.js'
 import { pinoHttp } from 'pino-http'
-import { MongoConnection } from './user/infrastructure/db/MongoConnection.js'
+import { MongoConnection } from './shared/infrastructure/db/MongoConnection.js'
 import { userRouter } from './user/infrastructure/http/UserRouter.js'
 
 dotenv.config()

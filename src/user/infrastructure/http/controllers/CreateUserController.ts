@@ -17,7 +17,7 @@ export class CreateUserController implements IExpressController {
 
     try {
       const user = await this.userCreator.run({ email, username, password })
-      const vault = await this.vaultCreator.run(user.getUsername)
+      const vault = await this.vaultCreator.run(user.getId)
       return res.status(201).json({
         status: 'Success',
         message: 'User created successfully',

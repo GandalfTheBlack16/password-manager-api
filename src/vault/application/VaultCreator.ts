@@ -9,13 +9,13 @@ export class VaultCreator {
     private readonly vaultRepository: VaultRepository
   ) {}
 
-  async run (owner: string): Promise<Vault> {
+  async run (ownerId: string): Promise<Vault> {
     try {
-      const vault = new Vault(uuid(), owner)
+      const vault = new Vault(uuid(), ownerId)
       return await this.vaultRepository.saveVault(vault)
     } catch (error) {
-      logger.error({ name: 'vault-creator' }, `Error creating Vault for new user ${owner}`, error)
-      throw new VaultCreationException(owner, error as Error)
+      logger.error({ name: 'vault-creator' }, `Error creating Vault for new user ${ownerId}`, error)
+      throw new VaultCreationException(ownerId, error as Error)
     }
   }
 }

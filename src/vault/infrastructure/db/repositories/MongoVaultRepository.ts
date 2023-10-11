@@ -14,8 +14,8 @@ export class MongoVaultRepository implements VaultRepository {
     return vault
   }
 
-  async findVaultsByOwner (owner: string) {
-    const vaultModel = await VaultModel.find({ owner })
+  async findVaultsByOwner (owenerId: string) {
+    const vaultModel = await VaultModel.find({ owner: owenerId })
     if (!vaultModel) {
       return []
     }

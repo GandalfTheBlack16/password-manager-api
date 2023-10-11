@@ -1,5 +1,5 @@
 import { type NextFunction, type Request, type Response } from 'express'
-import jwt from 'jsonwebtoken'
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 import { logger } from '../../../../shared/infrastructure/logger/Logger.js'
 
 const JWT_SECRET = process.env.JWT_SECRET ?? '00000000'
@@ -20,10 +20,13 @@ export const jtwAthentication = (req: Request, res: Response, next: NextFunction
     })
   }
   try {
-    jwt.verify(token, JWT_SECRET)
+    const payload = jwt.verify(token, JWT_SECRET) as JwtPayload
+    const { id, username, email } = payload
+    req.query = { userId: id, username, email }
     next()
   } catch (error) {
-    logger.info(`Error verifying access token ${token}`)
+    const message = (error as Error).message
+    logger.error({ name: 'user-service' }, `Error verifying access token: ${message}`)
     return res.status(401).json({
       status: 'Unauhtorized',
       message: 'Invalid token provided'

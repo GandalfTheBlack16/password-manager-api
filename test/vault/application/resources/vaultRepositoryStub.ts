@@ -12,8 +12,8 @@ export class VaultRepositoryStub implements VaultRepository {
     return await Promise.resolve(this.mockedVaultList.find(i => i.getId === id))
   }
 
-  async findVaultsByOwner (owner: string): Promise<Vault[]> {
-    return await Promise.resolve(this.mockedVaultList.filter(i => i.getOwner === owner))
+  async findVaultsByOwner (ownerId: string): Promise<Vault[]> {
+    return await Promise.resolve(this.mockedVaultList.filter(i => i.getId === ownerId))
   }
 
   async saveVault (vault: Vault): Promise<Vault> {

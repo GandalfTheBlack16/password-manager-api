@@ -39,6 +39,10 @@ export class Vault {
     this.credentials.push(credential)
   }
 
+  addCredentials (credentials: Credential[]) {
+    credentials.forEach(credential => { this.addCredential(credential) })
+  }
+
   deleteCredentialByName (credentialName: string) {
     this.credentials = this.credentials.filter(credential => credential.name !== credentialName)
   }

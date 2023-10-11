@@ -1,21 +1,27 @@
 import supertest from 'supertest'
 import { type Express } from 'express'
 import { initContext } from '../expressAppTestContext.js'
-import { validate, v4 as UUID } from 'uuid'
+import { validate, v4 as UUID} from 'uuid';
 import { type UserRepository } from '../../../../../src/user/domain/repositories/UserRepository.js'
 import { User } from '../../../../../src/user/domain/User.js'
+import { VaultCreator } from '../../../../../src/vault/application/VaultCreator.js'
+import { Vault } from '../../../../../src/vault/domain/Vault.js'
 
 describe('Create user Express controller integration test', () => {
   let app: Express
   let userRepository: UserRepository
+  let vaultCreatorMocked: VaultCreator
 
   beforeEach(() => {
-    const { app: application, userRepository: repository } = initContext()
+    const { app: application, userRepository: repository, vaultCreator } = initContext()
     app = application
     userRepository = repository
+    vaultCreatorMocked = vaultCreator
   })
 
   it('should create a new user', async () => {
+    const uuid = UUID()
+    jest.spyOn(vaultCreatorMocked, 'run').mockReturnValue(Promise.resolve(new Vault(uuid, 'test')))
     const newUser = {
       email: 'test@email.com',
       username: 'test',
@@ -33,7 +39,8 @@ describe('Create user Express controller integration test', () => {
         expect(message).toBe('User created successfully')
         expect(user).toStrictEqual({
           email: newUser.email,
-          username: newUser.username
+          username: newUser.username,
+          vaultId: uuid
         })
         const expectedUser = await userRepository.getUserByEmail(newUser.email)
         expect(expectedUser).toBeDefined()

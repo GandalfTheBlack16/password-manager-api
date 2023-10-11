@@ -34,6 +34,22 @@ describe('Vault domain class', () => {
     expect(vault.getCredentials.includes(credential)).toBeTruthy()
   })
 
+  it('should add a list of credentials', () => {
+    const vault = new Vault(uuid(), 'user')
+    const credentialList: Credential[] = [
+      { name: 'name', secret: 'service', serviceName: 'secret' },
+      { name: 'name2', secret: 'service2', serviceName: 'secret2' },
+      { name: 'name3', secret: 'service3', serviceName: 'secret3' },
+      { name: 'name4', secret: 'service4', serviceName: 'secret4' }
+    ]
+    vault.addCredentials(credentialList)
+    expect(vault.getCredentials.length).toBe(4)
+    expect(vault.getCredentials.includes(credentialList[0])).toBeTruthy()
+    expect(vault.getCredentials.includes(credentialList[1])).toBeTruthy()
+    expect(vault.getCredentials.includes(credentialList[2])).toBeTruthy()
+    expect(vault.getCredentials.includes(credentialList[3])).toBeTruthy()
+  })
+
   it('should delete a credential by name', () => {
     const vault = new Vault(uuid(), 'user')
     const credentials: Credential[] = [

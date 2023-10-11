@@ -5,6 +5,7 @@ import { UserFinder } from '../application/UserFinder.js'
 import { FindUserController } from './http/controllers/FindUsersController.js'
 import { LoginController } from './http/controllers/LoginController.js'
 import { UserLogin } from '../application/UserLogin.js'
+import { vaultCreator } from '../../vault/infrastructure/dependencies.js'
 
 const userRepository = new MongoUserRepository()
 
@@ -12,7 +13,7 @@ const userCreator = new UserCreator(userRepository)
 const userListFinder = new UserFinder(userRepository)
 const userLogin = new UserLogin(userRepository)
 
-const createUserController = new CreateUserController(userCreator)
+const createUserController = new CreateUserController(userCreator, vaultCreator)
 const findUsersController = new FindUserController(userListFinder)
 const loginController = new LoginController(userLogin)
 

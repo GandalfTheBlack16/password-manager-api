@@ -1,4 +1,3 @@
-import { decryptData } from '../../shared/application/crypto/CryptoUtils.js'
 import { logger } from '../../shared/infrastructure/logger/Logger.js'
 import { type Vault } from '../domain/Vault.js'
 import { type VaultRepository } from '../domain/repositories/VaultRepository.js'
@@ -11,18 +10,7 @@ export class VaultFinder {
 
   async run (ownerId: string): Promise<Vault[]> {
     try {
-      const vaultList = await this.vaultRepository.findVaultsByOwner(ownerId)
-      vaultList.forEach(vault => {
-        const credentials = vault.getCredentials.map(credential => {
-          return {
-            name: credential.name,
-            serviceName: credential.serviceName,
-            secret: decryptData(credential.secret)
-          }
-        })
-        vault.addCredentials(credentials)
-      })
-      return vaultList
+      return await this.vaultRepository.findVaultsByOwner(ownerId)
     } catch (error) {
       logger.error({ name: 'vault-service' }, `Error fetching vaults for user ${ownerId}: ${(error as Error).message}`)
       throw new VaultFinderException(ownerId, error as Error)

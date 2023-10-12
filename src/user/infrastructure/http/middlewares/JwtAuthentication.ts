@@ -1,8 +1,6 @@
 import { type NextFunction, type Request, type Response } from 'express'
-import jwt, { type JwtPayload } from 'jsonwebtoken'
 import { logger } from '../../../../shared/infrastructure/logger/Logger.js'
-
-const JWT_SECRET = process.env.JWT_SECRET ?? '00000000'
+import { verifyJwt } from '../../../../shared/application/crypto/CryptoUtils.js'
 
 export const jtwAthentication = (req: Request, res: Response, next: NextFunction) => {
   const header = req.headers.authorization
@@ -20,7 +18,7 @@ export const jtwAthentication = (req: Request, res: Response, next: NextFunction
     })
   }
   try {
-    const payload = jwt.verify(token, JWT_SECRET) as JwtPayload
+    const payload = verifyJwt(token)
     const { id, username, email } = payload
     req.query = { userId: id, username, email }
     next()

@@ -33,6 +33,12 @@ export class Vault {
   }
 
   addCredential (credential: Credential) {
+    const index = this.credentials.findIndex(item => item.name === credential.name ||
+      item.serviceName === credential.serviceName)
+    if (index >= 0) {
+      this.credentials[index] = credential
+      return
+    }
     if (!credential.name) {
       credential.name = credential.serviceName
     }

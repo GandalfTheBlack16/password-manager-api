@@ -10,6 +10,7 @@ const VaultSchema = new Schema({
   },
   credentials: [
     {
+      _id: false,
       name: {
         type: String
       },

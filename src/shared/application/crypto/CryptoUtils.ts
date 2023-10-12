@@ -1,12 +1,25 @@
-import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes } from 'crypto'
+import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes, createHash } from 'crypto'
+import dotenv from 'dotenv'
 import { type JwtPayload } from './crypto-types.js'
 import jwt from 'jsonwebtoken'
 
+dotenv.config()
+
 const PASSWORD_SALT = process.env.PASSWORD_SALT ?? '00000000'
 const JWT_SECRET = process.env.JWT_SECRET ?? '00000000'
-const CIPHER_ALGORITHM = 'aes-256-cbc'
-const INIT_VETOR = randomBytes(16)
-const SECURITY_KEY = randomBytes(32)
+const INIT_VETOR = process.env.SECRET_IV ?? randomBytes(16)
+const SECURITY_KEY = process.env.SECRET_SECURITY_KEY ?? randomBytes(32)
+
+const encryptionAlgorithm = 'aes-256-cbc'
+const encryptionKey = createHash('sha512')
+  .update(SECURITY_KEY)
+  .digest('hex')
+  .substring(0, 32)
+
+const encryptionIv = createHash('sha512')
+  .update(INIT_VETOR)
+  .digest('hex')
+  .substring(0, 16)
 
 export const hashPassword = (password: string) => {
   return pbkdf2Sync(password, PASSWORD_SALT, 10000, 64, 'sha512').toString('hex')
@@ -18,13 +31,19 @@ export const verifyPassword = (actualPassword: string, expectedPassword: string)
 }
 
 export const encryptData = (data: string) => {
-  const cipher = createCipheriv(CIPHER_ALGORITHM, SECURITY_KEY, INIT_VETOR)
-  return cipher.update(data, 'utf8', 'hex') + cipher.final('hex')
+  const cipher = createCipheriv(encryptionAlgorithm, encryptionKey, encryptionIv)
+  return Buffer.from(
+    cipher.update(data, 'utf-8', 'hex') + cipher.final('hex')
+  ).toString('base64')
 }
 
 export const decryptData = (encryptedData: string) => {
-  const decipher = createDecipheriv(CIPHER_ALGORITHM, SECURITY_KEY, INIT_VETOR)
-  return decipher.update(encryptedData, 'hex', 'utf-8') + decipher.final('utf8')
+  const buff = Buffer.from(encryptedData, 'base64')
+  const decipher = createDecipheriv(encryptionAlgorithm, encryptionKey, encryptionIv)
+  return (
+    decipher.update(buff.toString('utf8'), 'hex', 'utf8') +
+    decipher.final('utf8')
+  )
 }
 
 export const generateJwt = (payload: JwtPayload) => {

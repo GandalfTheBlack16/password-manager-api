@@ -9,8 +9,8 @@ const PASSWORD_SALT = process.env.PASSWORD_SALT ?? '00000000'
 const JWT_SECRET = process.env.JWT_SECRET ?? '00000000'
 const INIT_VETOR = process.env.SECRET_IV ?? randomBytes(16)
 const SECURITY_KEY = process.env.SECRET_SECURITY_KEY ?? randomBytes(32)
+const encryptionAlgorithm = process.env.CIPHER_ALGORITHM ?? 'aes-256-cbc'
 
-const encryptionAlgorithm = 'aes-256-cbc'
 const encryptionKey = createHash('sha512')
   .update(SECURITY_KEY)
   .digest('hex')

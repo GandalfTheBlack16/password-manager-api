@@ -1,5 +1,5 @@
 import { type Response } from 'express'
-import { type MongoConnection } from './user/infrastructure/db/MongoConnection.js'
+import { type MongoConnection } from './shared/infrastructure/db/MongoConnection.js'
 
 export function HealthCheck (res: Response, db: MongoConnection) {
   res.json({

@@ -16,12 +16,6 @@ export interface LoginUserDto {
   password: string
 }
 
-export interface JwtPayload {
-  id: string
-  username: string
-  email: string
-}
-
 export interface LoginUserResponseDto {
   status: string
   message?: string

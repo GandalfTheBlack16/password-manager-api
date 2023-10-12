@@ -1,13 +1,12 @@
 import express from 'express'
-import { createUserController, findUsersController, loginController } from '../dependencies.js'
-import { jtwAthentication } from './middlewares/JwtAuthentication.js'
+import { findUsersController, findUserVaultsController, updateUserCredentials } from '../dependencies.js'
 
 const userRouter = express.Router()
 
-userRouter.get('/', jtwAthentication, findUsersController.handleRequest.bind(findUsersController))
+userRouter.get('/', findUsersController.handleRequest.bind(findUsersController))
 
-userRouter.post('/', createUserController.handleRequest.bind(createUserController))
+userRouter.get('/vaults', findUserVaultsController.handleRequest.bind(findUserVaultsController))
 
-userRouter.post('/login', loginController.handleRequest.bind(loginController))
+userRouter.put('/vaults/:vaultId/credentials', updateUserCredentials.handleRequest.bind(updateUserCredentials))
 
 export { userRouter }

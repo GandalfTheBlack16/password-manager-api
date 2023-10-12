@@ -3,6 +3,7 @@ import { User } from '../../../src/user/domain/User.js'
 import { UserRepositoryStub } from './resources/userRepositoryStub.js'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
+import { hashPassword, verifyJwt } from '../../../src/shared/application/crypto/CryptoUtils.js'
 
 describe('User login use-case', () => {
   let userLoger: UserLogin
@@ -40,7 +41,7 @@ describe('User login use-case', () => {
   })
 
   it('Should return a valid token on login', async () => {
-    const hashedPassword = crypto.pbkdf2Sync('dummyPassword', '00000000', 10000, 64, 'sha512').toString('hex')
+    const hashedPassword = hashPassword('dummyPassword')
     const user = new User('550e8400-e29b-41d4-a716-446655440000', 'email@email.com', 'username', hashedPassword)
     jest.spyOn(userRepository, 'getUserByUsername').mockReturnValue(Promise.resolve(user))
     const response = await userLoger.run({ username: 'test', email: '', password: 'dummyPassword' })
@@ -48,7 +49,7 @@ describe('User login use-case', () => {
     expect(status).toBe('Sucess')
     expect(accessToken).toBeDefined()
     if (accessToken) {
-      expect(jwt.verify(accessToken, '00000000')).toBeDefined()
+      expect(verifyJwt(accessToken)).toBeDefined()
     }
   })
 })

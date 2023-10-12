@@ -2,6 +2,7 @@ import { v4 } from 'uuid'
 import { VaultCredentialUpdater } from '../../../src/vault/application/VaultCredentialUpdater.js'
 import { Credential, Vault } from '../../../src/vault/domain/Vault.js'
 import { VaultRepositoryStub } from '../application/resources/vaultRepositoryStub.js'
+import { encryptData } from '../../../src/shared/application/crypto/CryptoUtils.js'
 
 describe('Credential update use-case', () => {
     let vaultCredentialUpdater: VaultCredentialUpdater
@@ -30,7 +31,7 @@ describe('Credential update use-case', () => {
         expect(vaultRepository.saveVault).toHaveBeenCalled()
         expect(vault).toBeDefined()
         expect(vault?.getCredentials.length).toBe(1)
-        expect(vault?.getCredentials[0]).toStrictEqual(credentials[0])
+        expect(vault?.getCredentials[0]).toStrictEqual({ ...credentials[0], secret: encryptData(credentials[0].secret) })
     })
 
     it('should create or update if credential exists', async () => {
@@ -52,6 +53,6 @@ describe('Credential update use-case', () => {
         expect(vaultRepository.saveVault).toHaveBeenCalledTimes(1)
         expect(vault).toBeDefined()
         expect(vault?.getCredentials.length).toBe(2)
-        expect(vault?.getCredentials.find(i => i.name === 'test')?.secret).toBe('updatedTestSecret')
+        expect(vault?.getCredentials.find(i => i.name === 'test')?.secret).toBe(encryptData('updatedTestSecret'))
     })
 })

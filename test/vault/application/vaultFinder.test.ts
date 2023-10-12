@@ -1,3 +1,4 @@
+import { encryptData } from '../../../src/shared/application/crypto/CryptoUtils.js'
 import { VaultFinder } from '../../../src/vault/application/VaultFinder.js'
 import { Vault } from '../../../src/vault/domain/Vault.js'
 import { VaultId } from '../../../src/vault/domain/valueObjects/VaultId.js'
@@ -22,9 +23,9 @@ describe('Vault finder use-case', () => {
     const userId = UUID()
     const vault = new Vault(userId, 'user')
     vault.addCredentials([
-        { name: 'password-manager', serviceName: 'pasword-manager', secret: 'secretPassword' },
-        { name: 'google', serviceName: 'google.com', secret: 'secretPassword' },
-        { name: 'facebook', serviceName: 'facebook.com', secret: 'secretPassword' },
+        { name: 'password-manager', serviceName: 'pasword-manager', secret: encryptData('secretPassword') },
+        { name: 'google', serviceName: 'google.com', secret: encryptData('secretPassword') },
+        { name: 'facebook', serviceName: 'facebook.com', secret: encryptData('secretPassword') },
     ])
     vaultRepository.mockedVaultList = [ vault ]
     const vaultList = await vaultFinder.run(userId)

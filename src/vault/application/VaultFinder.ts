@@ -15,7 +15,8 @@ export class VaultFinder {
       vaultList.forEach(vault => {
         const credentials = vault.getCredentials.map(credential => {
           return {
-            ...credential,
+            name: credential.name,
+            serviceName: credential.serviceName,
             secret: decryptData(credential.secret)
           }
         })
@@ -23,7 +24,7 @@ export class VaultFinder {
       })
       return vaultList
     } catch (error) {
-      logger.error({ name: 'vault-service' }, `Error fetching vaults for user ${ownerId}`)
+      logger.error({ name: 'vault-service' }, `Error fetching vaults for user ${ownerId}: ${(error as Error).message}`)
       throw new VaultFinderException(ownerId, error as Error)
     }
   }

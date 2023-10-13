@@ -8,19 +8,25 @@ const VaultSchema = new Schema({
     type: String,
     required: true
   },
+  lastModified: {
+    type: Date
+  },
   credentials: [
     {
-      _id: false,
-      name: {
-        type: String
+      _id: {
+        type: String,
+        required: true
       },
-      serviceName: {
+      name: {
         type: String,
         required: true
       },
       secret: {
         type: String,
         required: true
+      },
+      description: {
+        type: String
       }
     }
   ]

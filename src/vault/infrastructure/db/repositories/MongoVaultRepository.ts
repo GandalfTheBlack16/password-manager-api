@@ -1,6 +1,14 @@
+import { Credential } from '../../../domain/Credential.js'
 import { Vault } from '../../../domain/Vault.js'
 import { type VaultRepository } from '../../../domain/repositories/VaultRepository.js'
 import { VaultModel } from '../models/VaultModel.js'
+
+interface CredentialModel {
+  _id: string
+  name: string
+  secret: string
+  description?: string | undefined
+}
 
 export class MongoVaultRepository implements VaultRepository {
   async findVaultById (id: string) {
@@ -10,7 +18,7 @@ export class MongoVaultRepository implements VaultRepository {
     }
     const { _id: vaultId, owner, credentials } = vaultModel
     const vault = new Vault(vaultId, owner)
-    vault.addCredentials(credentials)
+    vault.addCredentials(this.credentialsModelToDomain(credentials))
     return vault
   }
 
@@ -22,23 +30,45 @@ export class MongoVaultRepository implements VaultRepository {
     return vaultModel.map(item => {
       const { _id: id, owner, credentials } = item
       const vault = new Vault(id, owner)
-      vault.addCredentials(credentials)
+      vault.addCredentials(this.credentialsModelToDomain(credentials))
       return vault
     })
   }
 
   async saveVault (vault: Vault) {
-    const vaultModel = await VaultModel.findOneAndUpdate({ _id: vault.getId }, vault, { upsert: true, new: true })
+    const vaultModel = await VaultModel.findOneAndUpdate(
+      { _id: vault.getId },
+      this.vaultDomainToModel(vault),
+      { upsert: true, new: true })
     if (!vaultModel) {
       return vault
     }
     const { _id, owner, credentials } = vaultModel
     const newVault = new Vault(_id, owner)
-    newVault.addCredentials(credentials)
+    newVault.addCredentials(this.credentialsModelToDomain(credentials))
     return newVault
   }
 
   async deleteVaultById (id: string) {
     return await VaultModel.deleteOne({ _id: id }) !== undefined
+  }
+
+  private credentialsModelToDomain (credentialList: CredentialModel[]): Credential[] {
+    return credentialList.map(credential => {
+      const { _id: id, name, secret, description } = credential
+      return new Credential(id, name, secret, description)
+    })
+  }
+
+  private vaultDomainToModel (vault: Vault) {
+    const { getId: _id, getCredentials, getOwner: owner, getLastModified: lastModified } = vault
+    return new VaultModel({
+      _id,
+      owner,
+      credentials: getCredentials.map(credential => {
+        return { _id: credential.getId, name: credential.getName, secret: credential.getSecret, description: credential.getDescription }
+      }),
+      lastModified
+    })
   }
 }

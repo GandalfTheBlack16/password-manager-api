@@ -23,7 +23,10 @@ export class UpdateUserCredentials implements IExpressController {
         message: 'Vault updated',
         vault: {
           owner: vault.getOwner,
-          credentials: vault.getCredentials
+          credentials: vault.getCredentials.map(credential => {
+            const { getId: id, getName: name, getSecret: secret, getDescription: description } = credential
+            return { id, name, secret, description }
+          })
         }
       })
     } catch (error) {

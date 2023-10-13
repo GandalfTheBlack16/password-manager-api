@@ -27,7 +27,11 @@ export class FindUserVaultsController implements IExpressController {
           email
         },
         vaults: vaultList.map(item => {
-          return { ...item, id: item.getId }
+          const credentials = item.getCredentials.map(credential => {
+            const { getId: id, getName: name, getSecret: secret, getDescription: description } = credential
+            return { id, name, secret, description }
+          })
+          return { ...item, id: item.getId, credentials }
         })
       })
     } catch (error) {

@@ -1,14 +1,11 @@
 import { VaultId } from './valueObjects/VaultId.js'
-
-export interface Credential {
-  name?: string
-  serviceName: string
-  secret: string
-}
+import { type Credential } from './Credential.js'
+import { CredentialIdMismathchingException } from './exceptions/CredentialIdMismatchingException.js'
 
 export class Vault {
   private readonly id: VaultId
   private readonly owner: string
+  private lastModified: Date
   private credentials: Credential[]
 
   constructor (
@@ -17,6 +14,7 @@ export class Vault {
   ) {
     this.id = new VaultId(id)
     this.owner = owner
+    this.lastModified = new Date()
     this.credentials = []
   }
 
@@ -32,31 +30,37 @@ export class Vault {
     return this.credentials
   }
 
+  get getLastModified (): Date {
+    return this.lastModified
+  }
+
   addCredential (credential: Credential) {
-    const index = this.credentials.findIndex(item => item.name === credential.name ||
-      item.serviceName === credential.serviceName)
+    const index = this.credentials.findIndex(item => item.getId === credential.getId)
     if (index >= 0) {
-      this.credentials[index] = credential
+      this.updateCredentialById(index, credential)
       return
     }
-    if (!credential.name) {
-      credential.name = credential.serviceName
-    }
     this.credentials.push(credential)
+    this.lastModified = new Date()
   }
 
   addCredentials (credentials: Credential[]) {
     credentials.forEach(credential => { this.addCredential(credential) })
   }
 
-  deleteCredentialByName (credentialName: string) {
-    this.credentials = this.credentials.filter(credential => credential.name !== credentialName)
+  getCredentialById (credentialId: string) {
+    return this.credentials.find(i => i.getId === credentialId)
   }
 
-  updateCredentialByName (credentialName: string, credential: Credential) {
-    if (!credential.name) {
-      credential.name = credentialName
+  deleteCredentialById (credentialId: string) {
+    this.credentials = this.credentials.filter(credential => credential.getId !== credentialId)
+  }
+
+  private updateCredentialById (index: number, credential: Credential) {
+    if (this.credentials[index].getId !== credential.getId) {
+      throw new CredentialIdMismathchingException(credential.getId, this.credentials[index].getId)
     }
-    this.credentials = this.credentials.map(item => item.name === credentialName ? { ...credential } : item)
+    this.credentials[index] = credential
+    this.lastModified = new Date()
   }
 }

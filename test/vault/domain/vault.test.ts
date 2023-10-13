@@ -1,5 +1,6 @@
 import { IllegalArgException } from '../../../src/shared/domain/exception/IllegalArgException.js'
-import { Vault, type Credential } from '../../../src/vault/domain/Vault.js'
+import { Vault } from '../../../src/vault/domain/Vault.js'
+import { Credential } from '../../../src/vault/domain/Credential.js'
 import { v4 as uuid } from 'uuid'
 
 describe('Vault domain class', () => {
@@ -24,64 +25,94 @@ describe('Vault domain class', () => {
 
   it('should add new credential', () => {
     const vault = new Vault(uuid(), 'user')
-    const credential: Credential = {
-      name: 'name',
-      secret: 'service',
-      serviceName: 'secret'
-    }
+    const credential = new Credential(uuid(), 'name', 'service')
     vault.addCredential(credential)
     expect(vault.getCredentials.length).toBe(1)
     expect(vault.getCredentials.includes(credential)).toBeTruthy()
   })
 
+  it('should get a credential by id', () => {
+    const credId = uuid()
+    const vault = new Vault(uuid(), 'user')
+    vault.addCredential(new Credential(credId, 'name', 'secret'))
+    const credential =  vault.getCredentialById(credId)
+    expect(credential).toBeDefined()
+    expect(credential?.getId).toBe(credId)
+    expect(credential?.getName).toBe('name')
+    expect(credential?.getSecret).toBe('secret')
+    expect(credential?.getDescription).toBeUndefined()
+  })
+
   it('should add a list of credentials', () => {
     const vault = new Vault(uuid(), 'user')
+    const credId = uuid()
     const credentialList: Credential[] = [
-      { name: 'name', secret: 'service', serviceName: 'secret' },
-      { name: 'name2', secret: 'service2', serviceName: 'secret2' },
-      { name: 'name3', secret: 'service3', serviceName: 'secret3' },
-      { name: 'name4', secret: 'service4', serviceName: 'secret4' }
+      new Credential(uuid(), 'name1', 'secret1'),
+      new Credential(uuid(), 'name2', 'secret2'),
+      new Credential(credId, 'name3', 'secret3'),
+      new Credential(uuid(), 'name4', 'secret4'),
     ]
     vault.addCredentials(credentialList)
     expect(vault.getCredentials.length).toBe(4)
-    expect(vault.getCredentials.includes(credentialList[0])).toBeTruthy()
-    expect(vault.getCredentials.includes(credentialList[1])).toBeTruthy()
-    expect(vault.getCredentials.includes(credentialList[2])).toBeTruthy()
-    expect(vault.getCredentials.includes(credentialList[3])).toBeTruthy()
+    expect(vault.getCredentialById(credId)).toBeDefined()
+    expect(vault.getCredentialById(credId)?.getName).toBe('name3')
+    expect(vault.getCredentialById(credId)?.getSecret).toBe('secret3')
   })
 
-  it('should delete a credential by name', () => {
+  it('should delete a credential by id', () => {
     const vault = new Vault(uuid(), 'user')
+    const credId = uuid()
     const credentials: Credential[] = [
-      { name: 'name', serviceName: 'service', secret: 'secret' },
-      { name: 'name2', serviceName: 'service2', secret: 'secret' },
-      { name: 'name3', serviceName: 'service3', secret: 'secret' }
+      new Credential(uuid(), 'name1', 'secret1'),
+      new Credential(credId, 'name2', 'secret2'),
+      new Credential(uuid(), 'name3', 'secret3'),
+      new Credential(uuid(), 'name4', 'secret4'),
     ]
-    credentials.forEach(i => { vault.addCredential(i) })
-    vault.deleteCredentialByName('name')
-    expect(vault.getCredentials.length).toBe(2)
-    expect(vault.getCredentials.includes({ name: 'name', secret: 'service', serviceName: 'secret' })).toBeFalsy()
+    vault.addCredentials(credentials)
+    let credential = vault.getCredentialById(credId)
+    expect(credential).toBeDefined()
+    expect(vault.getCredentials.length).toBe(4)
+    vault.deleteCredentialById(credId)
+    credential = vault.getCredentialById(credId)
+    expect(credential).toBeUndefined()
+    expect(vault.getCredentials.length).toBe(3)
   })
 
-  it('should update service name and secret of a credential', () => {
+  it('should update a credential including a description if already exists', () => {
     const vault = new Vault(uuid(), 'user')
-    vault.addCredential({ name: 'name', serviceName: 'service', secret: 'secret' })
-    vault.updateCredentialByName('name', { serviceName: 'updatedService', secret: 'updatedSecret' })
-    const credential = vault.getCredentials[0]
+    const credId = uuid()
+    vault.addCredentials([
+      new Credential(uuid(), 'name1', 'secret1'),
+      new Credential(uuid(), 'name2', 'secret2'),
+      new Credential(credId, 'name3', 'secret3'),
+      new Credential(uuid(), 'name4', 'secret4'),
+    ])
+    const updatedCredential = new Credential(credId, 'nameUpdated', 'secretUpdated', 'newDescription')
+    vault.addCredential(updatedCredential)
+    expect(vault.getCredentials.length).toBe(4)
+    const credential = vault.getCredentialById(credId)
     expect(credential).toBeDefined()
-    expect(credential.name).toBe('name')
-    expect(credential.serviceName).toBe('updatedService')
-    expect(credential.secret).toBe('updatedSecret')
+    expect(credential?.getName).toBe('nameUpdated')
+    expect(credential?.getSecret).toBe('secretUpdated')
+    expect(credential?.getDescription).toBe('newDescription')
   })
 
-  it('should update credential, including its name', () => {
+  it('should updated a credential deleting its description', () => {
     const vault = new Vault(uuid(), 'user')
-    vault.addCredential({ name: 'name', serviceName: 'service', secret: 'secret' })
-    vault.updateCredentialByName('name', { name: 'updatedName', serviceName: 'updatedService', secret: 'updatedSecret' })
-    const credential = vault.getCredentials[0]
+    const credId = uuid()
+    vault.addCredentials([
+      new Credential(uuid(), 'name1', 'secret1', 'description1'),
+      new Credential(credId, 'name2', 'secret2', 'description2'),
+      new Credential(uuid(), 'name3', 'secret3', 'description3'),
+      new Credential(uuid(), 'name4', 'secret4', 'description4'),
+    ])
+    const updatedCredential = new Credential(credId, 'nameUpdated', 'secretUpdated')
+    vault.addCredential(updatedCredential)
+    expect(vault.getCredentials.length).toBe(4)
+    const credential = vault.getCredentialById(credId)
     expect(credential).toBeDefined()
-    expect(credential.name).toBe('updatedName')
-    expect(credential.serviceName).toBe('updatedService')
-    expect(credential.secret).toBe('updatedSecret')
+    expect(credential?.getName).toBe('nameUpdated')
+    expect(credential?.getSecret).toBe('secretUpdated')
+    expect(credential?.getDescription).toBeUndefined()
   })
 })

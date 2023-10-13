@@ -9,3 +9,8 @@ export interface VaultUpdaterDto {
   vaultId: string
   credentials: CredentialDto[]
 }
+
+export interface VaultCredentialEraserDto {
+  vaultId: string
+  credentialId: string
+}

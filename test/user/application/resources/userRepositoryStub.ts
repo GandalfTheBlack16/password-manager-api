@@ -53,10 +53,11 @@ export class UserRepositoryStub implements UserRepository {
   }
 
   async deleteUser (id: string) {
-    await new Promise<void>((resolve) => {
+    return await new Promise<boolean>((resolve) => {
       const updated = this.userList.filter(item => item.getId !== id)
+      const ret = updated.length < this.userList.length
       this.userList = updated
-      resolve()
+      resolve(ret)
     })
   }
 }

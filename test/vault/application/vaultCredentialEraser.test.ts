@@ -1,10 +1,10 @@
 import { VaultCredentialEraser } from '../../../src/vault/application/VaultCredentialEraser';
 import { VaultRepositoryStub } from './resources/vaultRepositoryStub';
 import { Vault } from '../../../src/vault/domain/Vault';
-import { VaultNotExistsException } from '../../../src/vault/application/exeptions/VaultNotExistsException';
+import { VaultNotExistsException } from '../../../src/vault/application/exceptions/VaultNotExistsException';
 import { v4 as uuid } from 'uuid';
 import { Credential } from '../../../src/vault/domain/Credential';
-import { CredentialNotExistsException } from '../../../src/vault/application/exeptions/CredentialNotExistsException';
+import { CredentialNotExistsException } from '../../../src/vault/application/exceptions/CredentialNotExistsException';
 describe('Vault credential delete use-case', () => {
 
     let vaultCredentialEraser: VaultCredentialEraser

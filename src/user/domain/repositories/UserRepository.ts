@@ -7,5 +7,5 @@ export interface UserRepository {
   getUserByUsername: (username: string) => Promise<User | null>
   createUser: (user: User) => Promise<User | null>
   updateUser: (user: User) => Promise<User | null>
-  deleteUser: (id: string) => Promise<void>
+  deleteUser: (id: string) => Promise<boolean>
 }

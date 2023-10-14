@@ -1,5 +1,5 @@
 import { VaultEraser } from '../../../src/vault/application/VaultEraser';
-import { VaultNotExistsException } from '../../../src/vault/application/exeptions/VaultNotExistsException';
+import { VaultNotExistsException } from '../../../src/vault/application/exceptions/VaultNotExistsException';
 import { Vault } from '../../../src/vault/domain/Vault';
 import { VaultRepositoryStub } from './resources/vaultRepositoryStub';
 import { v4 as uuid } from 'uuid';

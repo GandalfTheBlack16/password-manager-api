@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { type Request, type Response } from 'express'
 import dotenv from 'dotenv'
 import { HealthCheck } from './health.js'
 import { logger } from './shared/infrastructure/logger/Logger.js'
@@ -7,6 +7,7 @@ import { MongoConnection } from './shared/infrastructure/db/MongoConnection.js'
 import { userRouter } from './user/infrastructure/http/UserRouter.js'
 import { authRouter } from './user/infrastructure/http/AuthRouter.js'
 import { jtwAthentication } from './user/infrastructure/http/middlewares/JwtAuthentication.js'
+import { vaultRouter } from './vault/infrastructure/http/vaultRouter.js'
 
 dotenv.config()
 
@@ -20,13 +21,15 @@ app.use(express.json())
 
 app.use(pinoHttp({ logger, level: 'error' }))
 
-app.get('/health', (req, res) => {
-  HealthCheck(res, db)
-})
-
 app.use('/', authRouter)
 
-app.use('/api/user', jtwAthentication, userRouter)
+app.use('/api/users', jtwAthentication, userRouter)
+
+app.use('/api/vaults', jtwAthentication, vaultRouter)
+
+app.get('/health', (req, res) => { HealthCheck(res, db) })
+
+app.use((req: Request, res: Response) => { res.status(404).json({ status: 'Error', message: `Cannot ${req.method} ${req.url}` }) })
 
 app.listen(port, async () => {
   logger.info({ name: 'password-manager' }, `Application running on port ${port}`)

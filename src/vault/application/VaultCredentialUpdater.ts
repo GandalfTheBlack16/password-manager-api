@@ -1,7 +1,9 @@
 import { encryptData } from '../../shared/application/crypto/CryptoUtils.js'
 import { logger } from '../../shared/infrastructure/logger/Logger.js'
+import { Credential } from '../domain/Credential.js'
 import { type VaultRepository } from '../domain/repositories/VaultRepository.js'
 import { type VaultUpdaterDto } from './vault-types.js'
+import { v4 as uuid } from 'uuid'
 
 export class VaultCredentialUpdater {
   constructor (
@@ -15,10 +17,8 @@ export class VaultCredentialUpdater {
       return null
     }
     vault.addCredentials(credentials.map(credential => {
-      return {
-        ...credential,
-        secret: encryptData(credential.secret)
-      }
+      const credId = credential.id ?? uuid()
+      return new Credential(credId, credential.name, encryptData(credential.secret), credential.description)
     }))
     return await this.vaultRepository.saveVault(vault)
   }

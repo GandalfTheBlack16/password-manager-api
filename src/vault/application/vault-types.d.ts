@@ -1,6 +1,16 @@
-import { type Credential } from '../domain/Vault.ts'
+export interface CredentialDto {
+  id?: string
+  name: string
+  secret: string
+  description?: string
+}
 
 export interface VaultUpdaterDto {
   vaultId: string
-  credentials: Credential[]
+  credentials: CredentialDto[]
+}
+
+export interface VaultCredentialEraserDto {
+  vaultId: string
+  credentialId: string
 }

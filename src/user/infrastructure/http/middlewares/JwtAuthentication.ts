@@ -1,6 +1,7 @@
 import { type NextFunction, type Request, type Response } from 'express'
 import { logger } from '../../../../shared/infrastructure/logger/Logger.js'
 import { verifyJwt } from '../../../../shared/application/crypto/CryptoUtils.js'
+import jwt from 'jsonwebtoken'
 
 export const jtwAthentication = (req: Request, res: Response, next: NextFunction) => {
   const header = req.headers.authorization
@@ -19,15 +20,16 @@ export const jtwAthentication = (req: Request, res: Response, next: NextFunction
   }
   try {
     const payload = verifyJwt(token)
-    const { id, username, email } = payload
-    req.query = { userId: id, username, email }
+    const { id: userId } = payload
+    req.query = { userId }
     next()
   } catch (error) {
-    const message = (error as Error).message
-    logger.error({ name: 'user-service' }, `Error verifying access token: ${message}`)
+    const loggingMessage = (error as Error).message
+    logger.error({ name: 'user-service' }, `Error verifying access token: ${loggingMessage}`)
+    const message = error instanceof jwt.TokenExpiredError ? 'Access token has expired' : 'Invalid token provided'
     return res.status(401).json({
       status: 'Unauhtorized',
-      message: 'Invalid token provided'
+      message
     })
   }
 }

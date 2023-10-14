@@ -1,8 +1,10 @@
-import { v4 } from 'uuid'
+import { v4 } from 'uuid';
 import { VaultCredentialUpdater } from '../../../src/vault/application/VaultCredentialUpdater.js'
-import { Credential, Vault } from '../../../src/vault/domain/Vault.js'
+import { Vault } from '../../../src/vault/domain/Vault.js'
+import { Credential } from '../../../src/vault/domain/Credential.js'
 import { VaultRepositoryStub } from '../application/resources/vaultRepositoryStub.js'
 import { encryptData } from '../../../src/shared/application/crypto/CryptoUtils.js'
+import { CredentialDto } from '../../../src/vault/application/vault-types.js';
 
 describe('Credential update use-case', () => {
     let vaultCredentialUpdater: VaultCredentialUpdater
@@ -21,8 +23,8 @@ describe('Credential update use-case', () => {
     })
 
     it('should add new credentials to vault', async () => {
-        const credentials: Credential[] = [
-            { name: 'test', serviceName: 'test-service', secret: 'testSecret' }
+        const credentials: CredentialDto[] = [
+            { name: 'test', secret: 'secret' }
         ]
         const vaultId = v4()
         vaultRepository.mockedVaultList.push(new Vault(vaultId, 'owner'))
@@ -31,12 +33,15 @@ describe('Credential update use-case', () => {
         expect(vaultRepository.saveVault).toHaveBeenCalled()
         expect(vault).toBeDefined()
         expect(vault?.getCredentials.length).toBe(1)
-        expect(vault?.getCredentials[0]).toStrictEqual({ ...credentials[0], secret: encryptData(credentials[0].secret) })
+        expect(vault?.getCredentials[0]).toBeDefined()
+        expect(vault?.getCredentials[0].getName).toBe('test')
+        expect(vault?.getCredentials[0].getSecret).toBe(encryptData('secret'))
     })
 
     it('should create or update if credential exists', async () => {
+        const credId = v4()
         const credentials: Credential[] = [
-            { name: 'test', serviceName: 'test-service', secret: 'testSecret' }
+            new Credential(credId, 'test', 'testSecret')
         ]
         const vaultId = v4()
         const mockVault = new Vault(vaultId, 'owner')
@@ -46,13 +51,16 @@ describe('Credential update use-case', () => {
         const vault = await vaultCredentialUpdater.run({
             vaultId,
             credentials: [
-                { name: 'newCredential', serviceName: 'newCredential-service', secret: 'lasjfakf91512hrnfka' },
-                { name: 'test', serviceName: 'test-service', secret: 'updatedTestSecret' }
+                { name: 'newCredential', description: 'newCredential-service', secret: 'lasjfakf91512hrnfka' },
+                { id: credId, name: 'test', description: 'test-service', secret: 'updatedTestSecret' }
             ]
         })
         expect(vaultRepository.saveVault).toHaveBeenCalledTimes(1)
         expect(vault).toBeDefined()
         expect(vault?.getCredentials.length).toBe(2)
-        expect(vault?.getCredentials.find(i => i.name === 'test')?.secret).toBe(encryptData('updatedTestSecret'))
+        const updatedCredential = vault?.getCredentialById(credId)
+        expect(updatedCredential).toBeDefined()
+        expect(updatedCredential?.getSecret).toBe(encryptData('updatedTestSecret'))
+        expect(updatedCredential?.getDescription).toBe('test-service')
     })
 })

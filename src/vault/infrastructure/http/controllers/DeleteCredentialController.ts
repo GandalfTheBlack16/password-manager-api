@@ -1,10 +1,10 @@
 import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
-import { type VaultCredentialEraser } from '../../../../vault/application/VaultCredentialEraser.js'
-import { VaultNotExistsException } from '../../../../vault/application/exeptions/VaultNotExistsException.js'
-import { CredentialNotExistsException } from '../../../../vault/application/exeptions/CredentialNotExistsException.js'
+import { type VaultCredentialEraser } from '../../../application/VaultCredentialEraser.js'
+import { VaultNotExistsException } from '../../../application/exeptions/VaultNotExistsException.js'
+import { CredentialNotExistsException } from '../../../application/exeptions/CredentialNotExistsException.js'
 
-export class DeleteUserCredentialController implements IExpressController {
+export class DeleteCredentialController implements IExpressController {
   constructor (
     private readonly vaultCredentialEraser: VaultCredentialEraser
   ) {}

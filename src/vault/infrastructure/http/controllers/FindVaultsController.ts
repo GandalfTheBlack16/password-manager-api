@@ -1,17 +1,17 @@
 import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
-import { type VaultFinder } from '../../../../vault/application/VaultFinder.js'
+import { type VaultFinder } from '../../../application/VaultFinder.js'
 import { logger } from '../../../../shared/infrastructure/logger/Logger.js'
-import { VaultFinderException } from '../../../../vault/application/exeptions/VaultFinderException.js'
+import { VaultFinderException } from '../../../application/exeptions/VaultFinderException.js'
 
-export class FindUserVaultsController implements IExpressController {
+export class FindVaultsController implements IExpressController {
   constructor (
     private readonly vaultFinder: VaultFinder
   ) {}
 
   async handleRequest (req: Request, res: Response) {
     try {
-      const { userId, username, email } = req.query
+      const { userId } = req.query
       if (!userId) {
         logger.error({ name: 'user-service' }, 'Error fetching vault list: User id is not specified')
         return res.status(400).json({
@@ -22,10 +22,6 @@ export class FindUserVaultsController implements IExpressController {
       const vaultList = await this.vaultFinder.run(userId as string)
       return res.status(200).json({
         status: 'Success',
-        user: {
-          username,
-          email
-        },
         vaults: vaultList.map(item => {
           const credentials = item.getCredentials.map(credential => {
             const { getId: id, getName: name, getSecret: secret, getDescription: description } = credential

@@ -1,6 +1,6 @@
 export class VaultNotExistsException extends Error {
   constructor (
-    vaultId: string
+    public vaultId: string
   ) {
     super(`VaultNotExistsException vaultId ${vaultId}`)
   }

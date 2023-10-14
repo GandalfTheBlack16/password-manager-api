@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { type Request, type Response } from 'express'
 import dotenv from 'dotenv'
 import { HealthCheck } from './health.js'
 import { logger } from './shared/infrastructure/logger/Logger.js'
@@ -21,15 +21,15 @@ app.use(express.json())
 
 app.use(pinoHttp({ logger, level: 'error' }))
 
-app.get('/health', (req, res) => {
-  HealthCheck(res, db)
-})
-
 app.use('/', authRouter)
 
 app.use('/api/users', jtwAthentication, userRouter)
 
 app.use('/api/vaults', jtwAthentication, vaultRouter)
+
+app.get('/health', (req, res) => { HealthCheck(res, db) })
+
+app.use((req: Request, res: Response) => { res.status(404).json({ status: 'Error', message: `Cannot ${req.method} ${req.url}` }) })
 
 app.listen(port, async () => {
   logger.info({ name: 'password-manager' }, `Application running on port ${port}`)

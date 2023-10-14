@@ -1,11 +1,13 @@
 import express from 'express'
-import { findVaultsController, updateCredentialsController, deleteCredentialController, createVaultController } from '../dependencies.js'
+import { findVaultsController, updateCredentialsController, deleteCredentialController, createVaultController, deleteVaultController } from '../dependencies.js'
 
 const vaultRouter = express.Router()
 
 vaultRouter.get('/', findVaultsController.handleRequest.bind(findVaultsController))
 
 vaultRouter.put('/', createVaultController.handleRequest.bind(createVaultController))
+
+vaultRouter.delete('/:vaultId', deleteVaultController.handleRequest.bind(deleteVaultController))
 
 vaultRouter.put('/:vaultId/credentials', updateCredentialsController.handleRequest.bind(updateCredentialsController))
 

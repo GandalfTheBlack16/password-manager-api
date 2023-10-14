@@ -26,7 +26,7 @@ export const jtwAthentication = (req: Request, res: Response, next: NextFunction
   } catch (error) {
     const loggingMessage = (error as Error).message
     logger.error({ name: 'user-service' }, `Error verifying access token: ${loggingMessage}`)
-    const message = error instanceof jwt.TokenExpiredError ? 'Token has expired' : 'Invalid token provided'
+    const message = error instanceof jwt.TokenExpiredError ? 'Access token has expired' : 'Invalid token provided'
     return res.status(401).json({
       status: 'Unauhtorized',
       message

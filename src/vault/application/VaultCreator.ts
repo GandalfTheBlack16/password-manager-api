@@ -2,7 +2,7 @@ import { logger } from '../../shared/infrastructure/logger/Logger.js'
 import { Vault } from '../domain/Vault.js'
 import { type VaultRepository } from '../domain/repositories/VaultRepository.js'
 import { v4 as uuid } from 'uuid'
-import { VaultCreationException } from './exeptions/VaultCreationException.js'
+import { VaultCreationException } from './exceptions/VaultCreationException.js'
 
 export class VaultCreator {
   constructor (

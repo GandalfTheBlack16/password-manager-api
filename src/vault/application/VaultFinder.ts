@@ -1,7 +1,7 @@
 import { logger } from '../../shared/infrastructure/logger/Logger.js'
 import { type Vault } from '../domain/Vault.js'
 import { type VaultRepository } from '../domain/repositories/VaultRepository.js'
-import { VaultFinderException } from './exeptions/VaultFinderException.js'
+import { VaultFinderException } from './exceptions/VaultFinderException.js'
 
 export class VaultFinder {
   constructor (

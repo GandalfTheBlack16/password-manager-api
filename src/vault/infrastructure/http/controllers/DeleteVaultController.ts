@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { type VaultEraser } from '../../../application/VaultEraser.js'
-import { VaultNotExistsException } from '../../../application/exeptions/VaultNotExistsException.js'
+import { VaultNotExistsException } from '../../../application/exceptions/VaultNotExistsException.js'
 
 export class DeleteVaultController implements IExpressController {
   constructor (

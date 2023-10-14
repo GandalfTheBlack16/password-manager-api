@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { type VaultFinder } from '../../../application/VaultFinder.js'
 import { logger } from '../../../../shared/infrastructure/logger/Logger.js'
-import { VaultFinderException } from '../../../application/exeptions/VaultFinderException.js'
+import { VaultFinderException } from '../../../application/exceptions/VaultFinderException.js'
 
 export class FindVaultsController implements IExpressController {
   constructor (

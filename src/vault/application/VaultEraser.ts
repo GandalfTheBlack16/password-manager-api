@@ -1,5 +1,5 @@
 import { type VaultRepository } from '../domain/repositories/VaultRepository.js'
-import { VaultNotExistsException } from './exeptions/VaultNotExistsException.js'
+import { VaultNotExistsException } from './exceptions/VaultNotExistsException.js'
 
 export class VaultEraser {
   constructor (

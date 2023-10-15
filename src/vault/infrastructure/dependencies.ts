@@ -26,6 +26,7 @@ const deleteCredentialController = new DeleteCredentialController(vaultCredentia
 
 export {
   vaultCreator,
+  vaultEraser,
   findVaultsController,
   createVaultController,
   deleteVaultController,

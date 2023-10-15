@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { type VaultEraser } from '../../../application/VaultEraser.js'
-import { VaultNotExistsException } from '../../../application/exeptions/VaultNotExistsException.js'
+import { VaultNotExistsException } from '../../../application/exceptions/VaultNotExistsException.js'
 
 export class DeleteVaultController implements IExpressController {
   constructor (
@@ -17,7 +17,7 @@ export class DeleteVaultController implements IExpressController {
           message: 'Bad request, vaultId must be specified as path variable'
         })
       }
-      await this.vaultEraser.run(vaultId)
+      await this.vaultEraser.run({ vaultId })
       return res.status(200).json({
         status: 'Success',
         message: `Vault ${vaultId} has been deleted`

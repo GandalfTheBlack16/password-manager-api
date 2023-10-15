@@ -1,5 +1,5 @@
 import { VaultEraser } from '../../../src/vault/application/VaultEraser';
-import { VaultNotExistsException } from '../../../src/vault/application/exeptions/VaultNotExistsException';
+import { VaultNotExistsException } from '../../../src/vault/application/exceptions/VaultNotExistsException';
 import { Vault } from '../../../src/vault/domain/Vault';
 import { VaultRepositoryStub } from './resources/vaultRepositoryStub';
 import { v4 as uuid } from 'uuid';
@@ -16,7 +16,7 @@ describe('Vault delete use-case', () => {
     it('should throw exception if vault does not exists', async () => {
         jest.spyOn(vaultRepository, 'deleteVaultById').mockResolvedValue(false)
         try {
-            await vaultEraser.run('fakeId')
+            await vaultEraser.run({ vaultId: 'fakeId' })
         } catch (error) {
             expect(vaultRepository.deleteVaultById).toHaveBeenCalledWith('fakeId')
             expect(error).toBeInstanceOf(VaultNotExistsException)
@@ -30,7 +30,7 @@ describe('Vault delete use-case', () => {
             new Vault(uuid(), 'user2'),
             new Vault(selectedId, 'selectedUser')
         )
-        await vaultEraser.run(selectedId)
+        await vaultEraser.run({ vaultId: selectedId })
         expect(vaultRepository.mockedVaultList.length).toBe(2)
         expect(vaultRepository.mockedVaultList.find(i => i.getOwner === 'selectedUser')).toBeUndefined()
     })

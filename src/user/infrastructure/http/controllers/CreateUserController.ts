@@ -4,7 +4,7 @@ import { type UserCreator } from '../../../application/UserCreator.js'
 import { IllegalArgException } from '../../../../shared/domain/exception/IllegalArgException.js'
 import { UserAlreadyExistsException } from '../../../application/exception/UserAlreadyExistsException.js'
 import { type VaultCreator } from '../../../../vault/application/VaultCreator.js'
-import { VaultCreationException } from '../../../../vault/application/exeptions/VaultCreationException.js'
+import { VaultCreationException } from '../../../../vault/application/exceptions/VaultCreationException.js'
 
 export class CreateUserController implements IExpressController {
   constructor (

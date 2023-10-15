@@ -21,3 +21,9 @@ export interface LoginUserResponseDto {
   message?: string
   accessToken?: string
 }
+
+export interface UpdatePasswordDto {
+  userId: string
+  oldPassword: string
+  newPassword: string
+}

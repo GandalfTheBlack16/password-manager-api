@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { type VaultCreator } from '../../../application/VaultCreator.js'
 import { logger } from '../../../../shared/infrastructure/logger/Logger.js'
-import { VaultCreationException } from '../../../application/exeptions/VaultCreationException.js'
+import { VaultCreationException } from '../../../application/exceptions/VaultCreationException.js'
 
 export class CreateVaultController implements IExpressController {
   constructor (

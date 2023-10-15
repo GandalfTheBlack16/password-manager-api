@@ -14,3 +14,8 @@ export interface VaultCredentialEraserDto {
   vaultId: string
   credentialId: string
 }
+
+export interface VaultEraserDto {
+  vaultId?: string
+  userId?: string
+}

@@ -17,7 +17,7 @@ export class DeleteVaultController implements IExpressController {
           message: 'Bad request, vaultId must be specified as path variable'
         })
       }
-      await this.vaultEraser.run(vaultId)
+      await this.vaultEraser.run({ vaultId })
       return res.status(200).json({
         status: 'Success',
         message: `Vault ${vaultId} has been deleted`

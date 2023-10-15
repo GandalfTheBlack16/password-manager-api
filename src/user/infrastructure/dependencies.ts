@@ -5,7 +5,7 @@ import { UserFinder } from '../application/UserFinder.js'
 import { FindUserController } from './http/controllers/FindUsersController.js'
 import { LoginController } from './http/controllers/LoginController.js'
 import { UserLogin } from '../application/UserLogin.js'
-import { vaultCreator } from '../../vault/infrastructure/dependencies.js'
+import { vaultCreator, vaultEraser } from '../../vault/infrastructure/dependencies.js'
 import { DeleteUserController } from './http/controllers/DeleteUserController.js'
 import { UserEraser } from '../application/UserEraser.js'
 import { ChangeUserPasswordController } from './http/controllers/ChangeUserPasswordController.js'
@@ -22,7 +22,7 @@ const userPasswordUpdater = new UserPasswordUpdater(userRepository)
 const createUserController = new CreateUserController(userCreator, vaultCreator)
 const findUsersController = new FindUserController(userListFinder)
 const loginController = new LoginController(userLogin)
-const deleteUserController = new DeleteUserController(userEraser)
+const deleteUserController = new DeleteUserController(userEraser, vaultEraser)
 const changeUserPasswordController = new ChangeUserPasswordController(userPasswordUpdater)
 
 export {

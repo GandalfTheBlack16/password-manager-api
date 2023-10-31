@@ -27,7 +27,12 @@ export class UserLogin {
     })
     return {
       status: 'Sucess',
-      accessToken
+      accessToken,
+      userInfo: {
+        id: user.getId,
+        email: user.getEmail,
+        username: user.getUsername
+      }
     }
   }
 }

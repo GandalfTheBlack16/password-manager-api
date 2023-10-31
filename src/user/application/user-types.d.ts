@@ -20,6 +20,7 @@ export interface LoginUserResponseDto {
   status: string
   message?: string
   accessToken?: string
+  userInfo?: FindUserDto
 }
 
 export interface UpdatePasswordDto {

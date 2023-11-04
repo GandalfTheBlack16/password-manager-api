@@ -8,6 +8,7 @@ import { userRouter } from './user/infrastructure/http/UserRouter.js'
 import { authRouter } from './user/infrastructure/http/AuthRouter.js'
 import { jtwAthentication } from './user/infrastructure/http/middlewares/JwtAuthentication.js'
 import { vaultRouter } from './vault/infrastructure/http/vaultRouter.js'
+import { corsConfig, preflightOptions } from './shared/infrastructure/http/middlewares/CorsConfigurer.js'
 
 dotenv.config()
 
@@ -19,7 +20,11 @@ const db = new MongoConnection()
 
 app.use(express.json())
 
+app.use(corsConfig)
+
 app.use(pinoHttp({ logger, level: 'error' }))
+
+app.options('/*', preflightOptions)
 
 app.use('/', authRouter)
 

@@ -17,6 +17,7 @@ export class VaultCredentialEraser {
       throw new CredentialNotExistsException(vaultId, credentialId)
     }
     vault.deleteCredentialById(credentialId)
+    vault.updateLastModified()
     return await this.vaultRepository.saveVault(vault)
   }
 }

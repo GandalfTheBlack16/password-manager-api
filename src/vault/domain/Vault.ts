@@ -10,11 +10,12 @@ export class Vault {
 
   constructor (
     id: string,
-    owner: string
+    owner: string,
+    lastModified?: Date
   ) {
     this.id = new VaultId(id)
     this.owner = owner
-    this.lastModified = new Date()
+    this.lastModified = lastModified ?? new Date()
     this.credentials = []
   }
 
@@ -34,6 +35,10 @@ export class Vault {
     return this.lastModified
   }
 
+  updateLastModified (): void {
+    this.lastModified = new Date()
+  }
+
   addCredential (credential: Credential) {
     const index = this.credentials.findIndex(item => item.getId === credential.getId)
     if (index >= 0) {
@@ -41,7 +46,6 @@ export class Vault {
       return
     }
     this.credentials.push(credential)
-    this.lastModified = new Date()
   }
 
   addCredentials (credentials: Credential[]) {

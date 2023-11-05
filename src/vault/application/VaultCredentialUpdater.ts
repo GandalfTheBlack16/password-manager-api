@@ -20,6 +20,7 @@ export class VaultCredentialUpdater {
       const credId = credential.id ?? uuid()
       return new Credential(credId, credential.name, encryptData(credential.secret), credential.description)
     }))
+    vault.updateLastModified()
     return await this.vaultRepository.saveVault(vault)
   }
 }

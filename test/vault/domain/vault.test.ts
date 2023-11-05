@@ -14,6 +14,29 @@ describe('Vault domain class', () => {
     expect(vault.getCredentials.length).toBe(0)
   })
 
+  it('should create a vault with lastModified', () => {
+    const expectedId = uuid()
+    const expectedOwner = 'user'
+    const expectedDate = new Date()
+    const vault = new Vault(expectedId, expectedOwner, expectedDate)
+    expect(vault).toBeDefined()
+    expect(vault.getId).toBe(expectedId)
+    expect(vault.getOwner).toBe(expectedOwner)
+    expect(vault.getLastModified).toBe(expectedDate)
+    expect(vault.getCredentials.length).toBe(0)
+  })
+
+  it('should update lastModified', () => {
+    const expectedId = uuid()
+    const expectedOwner = 'user'
+    const vault = new Vault(expectedId, expectedOwner)
+    const currentDate = vault.getLastModified
+    vault.addCredential(new Credential(uuid(), 'test', 'test-secret'))
+    expect(vault.getLastModified).toBe(currentDate)
+    vault.updateLastModified()
+    expect(vault.getLastModified).not.toBe(currentDate)
+  })
+
   it('should throw invalid id exception', () => {
     let vault
     expect(() => {

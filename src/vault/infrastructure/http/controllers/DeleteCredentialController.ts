@@ -3,6 +3,7 @@ import { type IExpressController } from '../../../../shared/infrastructure/http/
 import { type VaultCredentialEraser } from '../../../application/VaultCredentialEraser.js'
 import { VaultNotExistsException } from '../../../application/exceptions/VaultNotExistsException.js'
 import { CredentialNotExistsException } from '../../../application/exceptions/CredentialNotExistsException.js'
+import { decryptData } from '../../../../shared/application/crypto/CryptoUtils.js'
 
 export class DeleteCredentialController implements IExpressController {
   constructor (
@@ -29,7 +30,7 @@ export class DeleteCredentialController implements IExpressController {
           lastModified,
           credentials: getCredentials.map(credential => {
             const { getId: id, getName: name, getSecret: secret, getDescription: description } = credential
-            return { id, name, secret, description }
+            return { id, name, secret: decryptData(secret), description }
           })
         }
       })

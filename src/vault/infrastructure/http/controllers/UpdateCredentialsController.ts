@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { type VaultCredentialUpdater } from '../../../application/VaultCredentialUpdater.js'
+import { decryptData } from '../../../../shared/application/crypto/CryptoUtils.js'
 
 export class UpdateCredentialsController implements IExpressController {
   constructor (
@@ -27,7 +28,7 @@ export class UpdateCredentialsController implements IExpressController {
           lastModified: vault.getLastModified,
           credentials: vault.getCredentials.map(credential => {
             const { getId: id, getName: name, getSecret: secret, getDescription: description } = credential
-            return { id, name, secret, description }
+            return { id, name, secret: decryptData(secret), description }
           })
         }
       })

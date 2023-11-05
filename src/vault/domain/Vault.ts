@@ -65,6 +65,5 @@ export class Vault {
       throw new CredentialIdMismathchingException(credential.getId, this.credentials[index].getId)
     }
     this.credentials[index] = credential
-    this.lastModified = new Date()
   }
 }

@@ -1,11 +1,13 @@
 import express from 'express'
-import { deleteUserController, findUsersController, changeUserPasswordController } from '../dependencies.js'
+import { deleteUserController, findUsersController, changeUserPasswordController, updateUserController } from '../dependencies.js'
 
 const userRouter = express.Router()
 
 userRouter.get('/', findUsersController.handleRequest.bind(findUsersController))
 
 userRouter.delete('/', deleteUserController.handleRequest.bind(deleteUserController))
+
+userRouter.patch('/:userId', updateUserController.handleRequest.bind(updateUserController))
 
 userRouter.put('/password', changeUserPasswordController.handleRequest.bind(changeUserPasswordController))
 

@@ -11,11 +11,13 @@ export class FindUserController implements IExpressController {
       const { id, email, username }: FindUserDto = req.query
       const userList = await this.userFinder.run({ id, email, username })
       if (userList.length === 0) {
+        let message = email ? `Email ${email} is available.` : ''
+        message += username ? `Username ${username} is available` : ''
         return res
           .status(404)
           .json({
             status: 'Success',
-            message: 'Without results'
+            message: message ?? 'Without results'
           })
       }
       return res.json({

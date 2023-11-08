@@ -3,7 +3,7 @@ import { deleteUserController, findUsersController, changeUserPasswordController
 
 const userRouter = express.Router()
 
-userRouter.get('/', findUsersController.handleRequest.bind(findUsersController))
+userRouter.get('/available', findUsersController.handleRequest.bind(findUsersController))
 
 userRouter.delete('/', deleteUserController.handleRequest.bind(deleteUserController))
 

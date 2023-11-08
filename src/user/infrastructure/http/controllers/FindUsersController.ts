@@ -14,7 +14,7 @@ export class FindUserController implements IExpressController {
         let message = email ? `Email ${email} is available.` : ''
         message += username ? `Username ${username} is available` : ''
         return res
-          .status(404)
+          .status(200)
           .json({
             status: 'Success',
             message: message.length > 0 ? message : 'Without results'

@@ -17,7 +17,7 @@ export class FindUserController implements IExpressController {
           .status(404)
           .json({
             status: 'Success',
-            message: message ?? 'Without results'
+            message: message.length > 0 ? message : 'Without results'
           })
       }
       return res.json({

@@ -5,6 +5,7 @@ import { type UserRepository } from '../../../../../src/user/domain/repositories
 import { initContext } from '../expressAppTestContext.js'
 import { User } from '../../../../../src/user/domain/User.js'
 
+//TODO: Change this test since this controller is meant to check if username or email is available
 describe('Find user Express controlle integration test', () => {
   let app: Express
   let userRepository: UserRepository

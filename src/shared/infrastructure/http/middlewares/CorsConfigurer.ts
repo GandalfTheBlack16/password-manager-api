@@ -10,7 +10,7 @@ interface CorsOptions {
 export const corsConfig = (req: Request, res: Response, next: NextFunction) => {
   const config: CorsOptions = {
     allowedOrigins: process.env.CORS_ALLOWED_ORIGINS ?? 'http://localhost:5173',
-    allowedMethods: 'GET,POST,PUT,DELETE,OPTIONS',
+    allowedMethods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
     allowedHeaders: 'Access-Control-Allow-Headers,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization',
     allowCredentials: 'true'
   }

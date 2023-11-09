@@ -21,7 +21,7 @@ export const jtwAthentication = (req: Request, res: Response, next: NextFunction
   try {
     const payload = verifyJwt(token)
     const { id: userId } = payload
-    req.query = { userId }
+    req.query = { ...req.query, userId }
     next()
   } catch (error) {
     const loggingMessage = (error as Error).message

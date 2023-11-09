@@ -24,7 +24,7 @@ function initContext () {
   const availableUserController = new AvailableUserController(userFinder)
   const createUserController = new CreateUserController(userCreator, vaultCreator)
 
-  userRouter.get('/', availableUserController.handleRequest.bind(availableUserController))
+  userRouter.get('/available', availableUserController.handleRequest.bind(availableUserController))
 
   userRouter.post('/', createUserController.handleRequest.bind(createUserController))
 

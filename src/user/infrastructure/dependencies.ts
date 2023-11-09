@@ -2,7 +2,7 @@ import { UserCreator } from '../application/UserCreator.js'
 import { CreateUserController } from './http/controllers/CreateUserController.js'
 import { MongoUserRepository } from './db/repositories/MongoUserRepository.js'
 import { UserFinder } from '../application/UserFinder.js'
-import { FindUserController } from './http/controllers/FindUsersController.js'
+import { AvailableUserController } from './http/controllers/AvailableUsersController.js'
 import { LoginController } from './http/controllers/LoginController.js'
 import { UserLogin } from '../application/UserLogin.js'
 import { vaultCreator, vaultEraser } from '../../vault/infrastructure/dependencies.js'
@@ -23,7 +23,7 @@ const userUpdater = new UserUpdater(userRepository)
 const userPasswordUpdater = new UserPasswordUpdater(userRepository)
 
 const createUserController = new CreateUserController(userCreator, vaultCreator)
-const findUsersController = new FindUserController(userListFinder)
+const availableUsersController = new AvailableUserController(userListFinder)
 const loginController = new LoginController(userLogin)
 const deleteUserController = new DeleteUserController(userEraser, vaultEraser)
 const updateUserController = new UpdateUserController(userUpdater)
@@ -31,7 +31,7 @@ const changeUserPasswordController = new ChangeUserPasswordController(userPasswo
 
 export {
   createUserController,
-  findUsersController,
+  availableUsersController,
   loginController,
   deleteUserController,
   updateUserController,

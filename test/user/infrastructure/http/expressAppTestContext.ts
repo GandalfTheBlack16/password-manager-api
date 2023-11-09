@@ -1,7 +1,7 @@
 import express from 'express'
 
 import { CreateUserController } from '../../../../src/user/infrastructure/http/controllers/CreateUserController.js'
-import { FindUserController } from '../../../../src/user/infrastructure/http/controllers/FindUsersController.js'
+import { AvailableUserController } from '../../../../src/user/infrastructure/http/controllers/AvailableUsersController.js'
 import { UserFinder } from '../../../../src/user/application/UserFinder.js'
 import { UserRepositoryStub } from '../../application/resources/userRepositoryStub.js'
 import { UserCreator } from '../../../../src/user/application/UserCreator.js'
@@ -21,10 +21,10 @@ function initContext () {
   const userCreator = new UserCreator(userRepository)
   const vaultCreator = new VaultCreator(vaultRepository)
 
-  const findUsersController = new FindUserController(userFinder)
+  const availableUserController = new AvailableUserController(userFinder)
   const createUserController = new CreateUserController(userCreator, vaultCreator)
 
-  userRouter.get('/', findUsersController.handleRequest.bind(findUsersController))
+  userRouter.get('/available', availableUserController.handleRequest.bind(availableUserController))
 
   userRouter.post('/', createUserController.handleRequest.bind(createUserController))
 

@@ -24,7 +24,7 @@ export class UserLogin {
       id: user.getId,
       email: user.getEmail,
       username: user.getUsername
-    })
+    }, process.env.JWT_EXPIRATION_TIME)
     return {
       status: 'Sucess',
       accessToken,

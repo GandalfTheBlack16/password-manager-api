@@ -46,9 +46,9 @@ export const decryptData = (encryptedData: string) => {
   )
 }
 
-export const generateJwt = (payload: JwtPayload) => {
+export const generateJwt = (payload: JwtPayload, expirationTime?: string) => {
   return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: '30m'
+    expiresIn: expirationTime ?? '30m'
   })
 }
 

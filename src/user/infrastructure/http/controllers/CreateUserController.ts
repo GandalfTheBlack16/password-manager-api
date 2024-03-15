@@ -5,6 +5,7 @@ import { IllegalArgException } from '../../../../shared/domain/exception/Illegal
 import { UserAlreadyExistsException } from '../../../application/exception/UserAlreadyExistsException.js'
 import { type VaultCreator } from '../../../../vault/application/VaultCreator.js'
 import { VaultCreationException } from '../../../../vault/application/exceptions/VaultCreationException.js'
+import { sendEmail } from '../../../../send-email/infrastructure/dependencies.js'
 
 export class CreateUserController implements IExpressController {
   constructor (
@@ -18,6 +19,7 @@ export class CreateUserController implements IExpressController {
     try {
       const user = await this.userCreator.run({ email, username, password })
       const vault = await this.vaultCreator.run(user.getId)
+      void sendEmail([email], 'Welcome to Password Manager', '<h3>Your account has been created succesfully</h3>')
       return res.status(201).json({
         status: 'Success',
         message: 'User created successfully',

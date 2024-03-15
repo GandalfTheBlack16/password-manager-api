@@ -12,6 +12,8 @@ import { ChangeUserPasswordController } from './http/controllers/ChangeUserPassw
 import { UserPasswordUpdater } from '../application/UserPasswordUpdater.js'
 import { UserUpdater } from '../application/UserUpdater.js'
 import { UpdateUserController } from './http/controllers/UpdateUserController.js'
+import { SendPasswordRestoreController } from './http/controllers/SendPasswordRestoreController.js'
+import { restoreTokenCreator } from '../../restore-token/infraestructure/dependencies.js'
 
 const userRepository = new MongoUserRepository()
 
@@ -28,6 +30,7 @@ const loginController = new LoginController(userLogin)
 const deleteUserController = new DeleteUserController(userEraser, vaultEraser)
 const updateUserController = new UpdateUserController(userUpdater)
 const changeUserPasswordController = new ChangeUserPasswordController(userPasswordUpdater)
+const sendPasswordRestoreController = new SendPasswordRestoreController(userListFinder, restoreTokenCreator)
 
 export {
   createUserController,
@@ -35,5 +38,6 @@ export {
   loginController,
   deleteUserController,
   updateUserController,
-  changeUserPasswordController
+  changeUserPasswordController,
+  sendPasswordRestoreController
 }

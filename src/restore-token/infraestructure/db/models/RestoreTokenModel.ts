@@ -21,6 +21,6 @@ const RestoreTokenSchema = new Schema({
     type: Boolean,
     required: true
   }
-})
+}, { collection: 'restoreTokens' })
 
 export const RestoreTokenModel = model('RestoreToken', RestoreTokenSchema)

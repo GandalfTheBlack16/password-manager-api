@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import { type IExpressController } from '../../../../shared/infrastructure/http/IExpressController.js'
 import { validateEmail } from '../../../../shared/domain/utils/EmailUtils.js'
 import { type UserFinder } from '../../../application/UserFinder.js'
-import { type RestoreTokenCreator } from '../../../../restore-token/application/ResotreTokenCreator.js'
+import { type RestoreTokenCreator } from '../../../../restore-token/application/RestoreTokenCreator.js'
 import { sendEmail } from '../../../../send-email/infrastructure/dependencies.js'
 
 const expirationTime = process.env.RESTORE_TOKEN_EXPIRATION ?? '30'

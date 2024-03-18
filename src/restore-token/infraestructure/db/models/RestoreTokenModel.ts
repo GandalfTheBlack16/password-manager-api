@@ -13,6 +13,10 @@ const RestoreTokenSchema = new Schema({
     type: String,
     required: true
   },
+  createdAt: {
+    type: Date,
+    required: true
+  },
   expireAt: {
     type: Date,
     required: true

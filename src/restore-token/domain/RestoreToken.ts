@@ -2,8 +2,8 @@ export class RestoreToken {
   private readonly id: string
   private readonly value: string
   private readonly userId: string
-  private readonly createdAt: Date
-  private readonly expireAt: Date
+  private createdAt: Date
+  private expireAt: Date
   private enable: boolean
 
   constructor (
@@ -15,7 +15,7 @@ export class RestoreToken {
     this.value = token
     this.userId = userId
     this.createdAt = new Date()
-    this.expireAt = new Date(new Date().getTime() + Number(process.env.RESTORE_TOKEN_EXPIRATION) ?? 30 * 60000)
+    this.expireAt = new Date(new Date().getTime() + (Number(process.env.RESTORE_TOKEN_EXPIRATION) ?? 30) * 60000)
     this.enable = true
   }
 
@@ -31,8 +31,20 @@ export class RestoreToken {
     return this.userId
   }
 
+  get getCreatedAt () {
+    return this.createdAt
+  }
+
+  set getCreatedAt (created: Date) {
+    this.createdAt = created
+  }
+
   get getExpireAt () {
     return this.expireAt
+  }
+
+  set getExpireAt (expire: Date) {
+    this.expireAt = expire
   }
 
   get isEnabled () {

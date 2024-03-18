@@ -1,8 +1,8 @@
 import { IllegalArgException } from '../../../shared/domain/exception/IllegalArgException.js'
+import { validateEmail } from '../../../shared/domain/utils/EmailUtils.js'
 
 export class UserEmail {
   private readonly value: string
-  private readonly regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
   constructor (email: string) {
     this.value = email
@@ -10,7 +10,7 @@ export class UserEmail {
   }
 
   private validateEmail (): void {
-    if (!this.regex.test(this.value.toLowerCase())) {
+    if (!validateEmail(this.value)) {
       throw new IllegalArgException(`Invalid address provided ${this.value}`)
     }
   }

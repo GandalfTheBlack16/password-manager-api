@@ -14,7 +14,7 @@ export class UserPasswordUpdater {
     if (!user) {
       throw new UserDoesNotExistsException(userId)
     }
-    if (user.getPassword !== hashPassword(oldPassword)) {
+    if (oldPassword && user.getPassword !== hashPassword(oldPassword)) {
       throw new UserPasswordNotMatchException(userId)
     }
     user.modifyPassword(hashPassword(newPassword))

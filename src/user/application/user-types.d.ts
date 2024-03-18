@@ -25,6 +25,6 @@ export interface LoginUserResponseDto {
 
 export interface UpdatePasswordDto {
   userId: string
-  oldPassword: string
+  oldPassword?: string
   newPassword: string
 }

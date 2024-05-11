@@ -4,9 +4,9 @@
   "description": "API for Personal credentials managing",
   "type": "module",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test": "jest --runInBand --silent",
+    "test:watch": "jest --runInBand --watch",
+    "test:coverage": "jest --runInBand --coverage",
     "dev": "nodemon --exec node --loader ts-node/esm src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
@@ -28,7 +28,7 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
-    "jest": "29.5.0",
+    "jest": "29.7.0",
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3",
     "ts-jest": "29.1.0",

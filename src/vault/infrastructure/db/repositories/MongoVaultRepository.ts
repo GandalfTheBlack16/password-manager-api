@@ -16,8 +16,8 @@ export class MongoVaultRepository implements VaultRepository {
     if (!vaultModel) {
       return undefined
     }
-    const { _id: vaultId, owner, credentials, lastModified } = vaultModel
-    const vault = new Vault(vaultId, owner, lastModified)
+    const { _id: vaultId, owner, name, credentials, lastModified } = vaultModel
+    const vault = new Vault(vaultId, owner, name, lastModified)
     vault.addCredentials(this.credentialsModelToDomain(credentials))
     return vault
   }
@@ -28,8 +28,8 @@ export class MongoVaultRepository implements VaultRepository {
       return []
     }
     return vaultModel.map(item => {
-      const { _id: id, owner, credentials, lastModified } = item
-      const vault = new Vault(id, owner, lastModified)
+      const { _id: id, owner, name, credentials, lastModified } = item
+      const vault = new Vault(id, owner, name, lastModified)
       vault.addCredentials(this.credentialsModelToDomain(credentials))
       return vault
     })
@@ -43,8 +43,8 @@ export class MongoVaultRepository implements VaultRepository {
     if (!vaultModel) {
       return vault
     }
-    const { _id, owner, credentials, lastModified } = vaultModel
-    const newVault = new Vault(_id, owner, lastModified)
+    const { _id, owner, name, credentials, lastModified } = vaultModel
+    const newVault = new Vault(_id, owner, name, lastModified)
     newVault.addCredentials(this.credentialsModelToDomain(credentials))
     return newVault
   }

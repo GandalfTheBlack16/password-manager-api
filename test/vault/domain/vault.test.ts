@@ -14,16 +14,27 @@ describe('Vault domain class', () => {
     expect(vault.getCredentials.length).toBe(0)
   })
 
-  it('should create a vault with lastModified', () => {
+  it('should create a vault with optional params', () => {
     const expectedId = uuid()
     const expectedOwner = 'user'
+    const expectedName = 'vault_name'
     const expectedDate = new Date()
-    const vault = new Vault(expectedId, expectedOwner, expectedDate)
+    const vault = new Vault(expectedId, expectedOwner, expectedName, expectedDate)
     expect(vault).toBeDefined()
     expect(vault.getId).toBe(expectedId)
     expect(vault.getOwner).toBe(expectedOwner)
+    expect(vault.getName).toBe(expectedName)
     expect(vault.getLastModified).toBe(expectedDate)
     expect(vault.getCredentials.length).toBe(0)
+  })
+
+  it('should update vault name', () => {
+    const expectedId = uuid()
+    const expectedOwner = 'user'
+    const expectedName = 'vault_name'
+    const vault = new Vault(expectedId, expectedOwner, 'old_value')
+    vault.updateName(expectedName)
+    expect(vault.getName).toBe(expectedName)
   })
 
   it('should update lastModified', () => {
@@ -58,7 +69,7 @@ describe('Vault domain class', () => {
     const credId = uuid()
     const vault = new Vault(uuid(), 'user')
     vault.addCredential(new Credential(credId, 'name', 'secret'))
-    const credential =  vault.getCredentialById(credId)
+    const credential = vault.getCredentialById(credId)
     expect(credential).toBeDefined()
     expect(credential?.getId).toBe(credId)
     expect(credential?.getName).toBe('name')

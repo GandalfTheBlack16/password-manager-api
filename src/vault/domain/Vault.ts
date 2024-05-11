@@ -5,16 +5,19 @@ import { CredentialIdMismathchingException } from './exceptions/CredentialIdMism
 export class Vault {
   private readonly id: VaultId
   private readonly owner: string
+  private name: string
   private lastModified: Date
   private credentials: Credential[]
 
   constructor (
     id: string,
     owner: string,
+    vaultName?: string,
     lastModified?: Date
   ) {
     this.id = new VaultId(id)
     this.owner = owner
+    this.name = vaultName ?? 'Private Vault'
     this.lastModified = lastModified ?? new Date()
     this.credentials = []
   }
@@ -27,12 +30,20 @@ export class Vault {
     return this.owner
   }
 
+  get getName (): string {
+    return this.name
+  }
+
   get getCredentials (): Credential[] {
     return this.credentials
   }
 
   get getLastModified (): Date {
     return this.lastModified
+  }
+
+  updateName (vaultName: string): void {
+    this.name = vaultName
   }
 
   updateLastModified (): void {

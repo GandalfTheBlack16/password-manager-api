@@ -11,6 +11,7 @@ export class CreateVaultController implements IExpressController {
 
   async handleRequest (req: Request, res: Response) {
     const { userId } = req.query
+    const { name } = req.body
     if (!userId) {
       logger.error({ name: 'create-vault-controller' }, 'Error creating a vault: User id is not specified')
       return res.status(400).json({
@@ -22,13 +23,14 @@ export class CreateVaultController implements IExpressController {
       const {
         getId: id,
         getOwner: owner,
+        getName: vaultName,
         getLastModified: lastModified,
         getCredentials: credentials
-      } = await this.vaultCreator.run(userId as string)
+      } = await this.vaultCreator.run(userId as string, name as string)
       return res.status(201).json({
         status: 'Success',
         message: 'Vault created succesfully',
-        vault: { id, owner, lastModified, credentials }
+        vault: { id, owner, vaultName, lastModified, credentials }
       })
     } catch (error) {
       if (error instanceof VaultCreationException) {

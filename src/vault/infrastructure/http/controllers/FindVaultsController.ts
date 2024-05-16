@@ -11,7 +11,7 @@ export class FindVaultsController implements IExpressController {
 
   async handleRequest (req: Request, res: Response) {
     try {
-      const { userId } = req.query
+      const { userId, name } = req.query
       if (!userId) {
         logger.error({ name: 'user-service' }, 'Error fetching vault list: User id is not specified')
         return res.status(400).json({
@@ -19,7 +19,7 @@ export class FindVaultsController implements IExpressController {
           message: 'UserId should be specified as query param'
         })
       }
-      const vaultList = await this.vaultFinder.run(userId as string)
+      const vaultList = await this.vaultFinder.run(userId as string, name as string | undefined)
       return res.status(200).json({
         status: 'Success',
         vaults: vaultList.map(item => {

@@ -61,10 +61,11 @@ export class MongoVaultRepository implements VaultRepository {
   }
 
   private vaultDomainToModel (vault: Vault) {
-    const { getId: _id, getCredentials, getOwner: owner, getLastModified: lastModified } = vault
+    const { getId: _id, getCredentials, getOwner: owner, getLastModified: lastModified, getName: name } = vault
     return new VaultModel({
       _id,
       owner,
+      name,
       credentials: getCredentials.map(credential => {
         return { _id: credential.getId, name: credential.getName, secret: credential.getSecret, description: credential.getDescription }
       }),

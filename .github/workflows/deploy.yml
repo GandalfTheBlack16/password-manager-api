@@ -11,12 +11,12 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - name: Docker build
-              run: docker build -t "${{ secrets.ECR_REPOSITORY_NAME }}:latest" .
+              run: docker build -t ${{ secrets.ECR_REPOSITORY_NAME }} .
             - name: Push to Amazon ECR
               uses: jwalton/gh-ecr-push@v2.0.2
               with:
                 access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                 secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 region: eu-west-1
-                image: ${{ secrets.ECR_REPOSITORY_NAME }}:latest
+                image: ${{ secrets.ECR_REPOSITORY_NAME }}
 

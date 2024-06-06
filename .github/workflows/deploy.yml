@@ -1,0 +1,21 @@
+name: AWS Deploy
+on:
+    push: 
+        branches: 
+            - main
+
+jobs:
+    publish-image:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Docker build
+              run: docker build -t "${{ secrets.ECR_REPOSITORY_NAME }}:latest" .
+            - name: Push to Amazon ECR
+              uses: jwalton/gh-ecr-push@v2.0.2
+              with:
+                access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                region: eu-west-1
+                image: ${{ secrets.ECR_REPOSITORY_NAME }}:latest
+

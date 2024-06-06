@@ -7,9 +7,6 @@ export class EmailMapper {
   private readonly senderEmail: string
 
   constructor (sender: string) {
-    if (!sender) {
-      throw new IllegalArgException('Email sender is undefined: Be sure env variable is defined')
-    }
     this.senderEmail = sender
   }
 

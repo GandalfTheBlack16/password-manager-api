@@ -28,3 +28,10 @@ export interface UpdatePasswordDto {
   oldPassword?: string
   newPassword: string
 }
+
+export interface UserLoggerProps {
+  username: string
+  email: string
+  password: string
+  keepLoggedIn: boolean
+}

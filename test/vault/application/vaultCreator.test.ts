@@ -11,15 +11,15 @@ describe('Vault creation use-case', () => {
   })
 
   it('should create a new vault', async () => {
-    await vaultCreator.run('username')
+    await vaultCreator.run('username', 'vaultName')
     expect(vaultRepository.mockedVaultList.length).toBe(1)
     expect(vaultRepository.mockedVaultList.at(0)?.getOwner).toBe('username')
   })
 
   it('should create multiple vaults', async () => {
-    await vaultCreator.run('username')
-    await vaultCreator.run('username')
-    await vaultCreator.run('username')
+    await vaultCreator.run('username', 'vaultName')
+    await vaultCreator.run('username', 'vaultName')
+    await vaultCreator.run('username', 'vaultName')
     expect(vaultRepository.mockedVaultList.length).toBe(3)
   })
 })

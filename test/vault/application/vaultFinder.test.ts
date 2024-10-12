@@ -6,7 +6,7 @@ import { VaultRepositoryStub } from './resources/vaultRepositoryStub.js'
 import { v4 as UUID } from 'uuid'
 
 describe('Vault finder use-case', () => {
-  let vaultFinder: VaultFinder 
+  let vaultFinder: VaultFinder
   let vaultRepository: VaultRepositoryStub
 
   beforeEach(() => {
@@ -19,15 +19,15 @@ describe('Vault finder use-case', () => {
     expect(vaultList.length).toBe(0)
   })
 
-  it('should get vault from user',async () => {
+  it('should get vault from user', async () => {
     const userId = UUID()
-    const vault = new Vault(userId, 'user')
+    const vault = new Vault(userId, 'name', 'user')
     vault.addCredentials([
       new Credential(UUID(), 'password-manager', encryptData('asgasg')),
       new Credential(UUID(), 'github', encryptData('125asfgasg')),
       new Credential(UUID(), 'facebook', encryptData('asg161qasg')),
     ])
-    vaultRepository.mockedVaultList = [ vault ]
+    vaultRepository.mockedVaultList = [vault]
     const vaultList = await vaultFinder.run(userId)
     expect(vaultList.length).toBe(1)
     expect(vaultList[0].getId).toBe(userId)

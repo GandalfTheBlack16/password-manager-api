@@ -1,7 +1,7 @@
 import supertest from 'supertest'
 import { type Express } from 'express'
 import { initContext } from '../expressAppTestContext.js'
-import { validate, v4 as UUID} from 'uuid';
+import { validate, v4 as UUID } from 'uuid';
 import { type UserRepository } from '../../../../../src/user/domain/repositories/UserRepository.js'
 import { User } from '../../../../../src/user/domain/User.js'
 import { VaultCreator } from '../../../../../src/vault/application/VaultCreator.js'
@@ -21,7 +21,7 @@ describe('Create user Express controller integration test', () => {
 
   it('should create a new user', async () => {
     const uuid = UUID()
-    jest.spyOn(vaultCreatorMocked, 'run').mockReturnValue(Promise.resolve(new Vault(uuid, 'test')))
+    jest.spyOn(vaultCreatorMocked, 'run').mockReturnValue(Promise.resolve(new Vault(uuid, 'name', 'test')))
     const newUser = {
       email: 'test@email.com',
       username: 'test',

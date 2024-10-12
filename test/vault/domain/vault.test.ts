@@ -2,14 +2,17 @@ import { IllegalArgException } from '../../../src/shared/domain/exception/Illega
 import { Vault } from '../../../src/vault/domain/Vault.js'
 import { Credential } from '../../../src/vault/domain/Credential.js'
 import { v4 as uuid } from 'uuid'
+import { InvalidNameException } from '../../../src/vault/domain/exceptions/InvalidNameException.js'
 
 describe('Vault domain class', () => {
   it('should create a valid vault', () => {
     const expectedId = uuid()
     const expectedOwner = 'user'
-    const vault = new Vault(expectedId, expectedOwner)
+    const expectedName = 'vault1'
+    const vault = new Vault(expectedId, expectedName, expectedOwner)
     expect(vault).toBeDefined()
     expect(vault.getId).toBe(expectedId)
+    expect(vault.getName).toBe(expectedName)
     expect(vault.getOwner).toBe(expectedOwner)
     expect(vault.getCredentials.length).toBe(0)
   })
@@ -17,19 +20,46 @@ describe('Vault domain class', () => {
   it('should create a vault with lastModified', () => {
     const expectedId = uuid()
     const expectedOwner = 'user'
+    const expectedName = 'vault1'
     const expectedDate = new Date()
-    const vault = new Vault(expectedId, expectedOwner, expectedDate)
+    const vault = new Vault(expectedId, expectedName, expectedOwner, expectedDate)
     expect(vault).toBeDefined()
     expect(vault.getId).toBe(expectedId)
+    expect(vault.getName).toBe(expectedName)
     expect(vault.getOwner).toBe(expectedOwner)
     expect(vault.getLastModified).toBe(expectedDate)
     expect(vault.getCredentials.length).toBe(0)
   })
 
-  it('should update lastModified', () => {
+  it('should update name', () => {
     const expectedId = uuid()
     const expectedOwner = 'user'
-    const vault = new Vault(expectedId, expectedOwner)
+    const oldName = 'vault1'
+    const vault = new Vault(expectedId, oldName, expectedOwner)
+    vault.updateName('newName')
+    expect(vault.getName).toBeDefined()
+    expect(vault.getName).toBe('newName')
+  })
+
+  it('should throw invalid name exception', () => {
+    const expectedId = uuid()
+    const expectedOwner = 'user'
+    const oldName = 'vault1'
+    const vault = new Vault(expectedId, oldName, expectedOwner)
+    expect(() => {
+      vault.updateName('123')
+    }).toThrow(InvalidNameException)
+
+    expect(() => {
+      vault.updateName('abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc')
+    }).toThrow(InvalidNameException)
+  })
+
+  it('should update lastModified', () => {
+    const expectedId = uuid()
+    const expectedName = 'vault1'
+    const expectedOwner = 'user'
+    const vault = new Vault(expectedId, expectedName, expectedOwner)
     const currentDate = vault.getLastModified
     vault.addCredential(new Credential(uuid(), 'test', 'test-secret'))
     expect(vault.getLastModified).toBe(currentDate)
@@ -40,14 +70,14 @@ describe('Vault domain class', () => {
   it('should throw invalid id exception', () => {
     let vault
     expect(() => {
-      vault = new Vault('fake-id', 'user')
+      vault = new Vault('fake-id', 'fakeName', 'user')
     }).toThrow(IllegalArgException)
 
     expect(vault).toBeUndefined()
   })
 
   it('should add new credential', () => {
-    const vault = new Vault(uuid(), 'user')
+    const vault = new Vault(uuid(), 'name', 'user')
     const credential = new Credential(uuid(), 'name', 'service')
     vault.addCredential(credential)
     expect(vault.getCredentials.length).toBe(1)
@@ -56,9 +86,9 @@ describe('Vault domain class', () => {
 
   it('should get a credential by id', () => {
     const credId = uuid()
-    const vault = new Vault(uuid(), 'user')
+    const vault = new Vault(uuid(), 'name', 'user')
     vault.addCredential(new Credential(credId, 'name', 'secret'))
-    const credential =  vault.getCredentialById(credId)
+    const credential = vault.getCredentialById(credId)
     expect(credential).toBeDefined()
     expect(credential?.getId).toBe(credId)
     expect(credential?.getName).toBe('name')
@@ -67,7 +97,7 @@ describe('Vault domain class', () => {
   })
 
   it('should add a list of credentials', () => {
-    const vault = new Vault(uuid(), 'user')
+    const vault = new Vault(uuid(), 'name', 'user')
     const credId = uuid()
     const credentialList: Credential[] = [
       new Credential(uuid(), 'name1', 'secret1'),
@@ -83,7 +113,7 @@ describe('Vault domain class', () => {
   })
 
   it('should delete a credential by id', () => {
-    const vault = new Vault(uuid(), 'user')
+    const vault = new Vault(uuid(), 'name', 'user')
     const credId = uuid()
     const credentials: Credential[] = [
       new Credential(uuid(), 'name1', 'secret1'),
@@ -102,7 +132,7 @@ describe('Vault domain class', () => {
   })
 
   it('should update a credential including a description if already exists', () => {
-    const vault = new Vault(uuid(), 'user')
+    const vault = new Vault(uuid(), 'name', 'user')
     const credId = uuid()
     vault.addCredentials([
       new Credential(uuid(), 'name1', 'secret1'),
@@ -121,7 +151,7 @@ describe('Vault domain class', () => {
   })
 
   it('should updated a credential deleting its description', () => {
-    const vault = new Vault(uuid(), 'user')
+    const vault = new Vault(uuid(), 'name', 'user')
     const credId = uuid()
     vault.addCredentials([
       new Credential(uuid(), 'name1', 'secret1', 'description1'),

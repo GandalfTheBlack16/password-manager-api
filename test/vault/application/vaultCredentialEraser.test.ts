@@ -26,7 +26,7 @@ describe('Vault credential delete use-case', () => {
     })
 
     it('should return exception if credential does not exists', async () => {
-        const mockedVault = new Vault(uuid(), 'user')
+        const mockedVault = new Vault(uuid(), 'name', 'user')
         mockedVault.addCredential(new Credential(uuid(), 'test', 'secret'))
         jest.spyOn(vaultRepository, 'findVaultById').mockResolvedValue(mockedVault)
         try {
@@ -38,7 +38,7 @@ describe('Vault credential delete use-case', () => {
     })
 
     it('should delete a credential from vault', async () => {
-        const mockedVault = new Vault(uuid(), 'user')
+        const mockedVault = new Vault(uuid(), 'name', 'user')
         const selectedId = uuid()
         mockedVault.addCredentials([
             new Credential(uuid(), 'test', 'secret'),

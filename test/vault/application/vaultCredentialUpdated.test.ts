@@ -17,7 +17,7 @@ describe('Credential update use-case', () => {
 
     it('should return null if vault does not exist', async () => {
         jest.spyOn(vaultRepository, 'findVaultById').mockResolvedValue(undefined)
-        const vault = await vaultCredentialUpdater.run({ vaultId: 'fakeId', credentials: []})
+        const vault = await vaultCredentialUpdater.run({ vaultId: 'fakeId', credentials: [] })
         expect(vaultRepository.findVaultById).toBeCalledWith('fakeId')
         expect(vault).toBeNull()
     })
@@ -27,7 +27,7 @@ describe('Credential update use-case', () => {
             { name: 'test', secret: 'secret' }
         ]
         const vaultId = v4()
-        vaultRepository.mockedVaultList.push(new Vault(vaultId, 'owner'))
+        vaultRepository.mockedVaultList.push(new Vault(vaultId, 'name', 'owner'))
         jest.spyOn(vaultRepository, 'saveVault')
         const vault = await vaultCredentialUpdater.run({ vaultId, credentials })
         expect(vaultRepository.saveVault).toHaveBeenCalled()
@@ -44,7 +44,7 @@ describe('Credential update use-case', () => {
             new Credential(credId, 'test', 'testSecret')
         ]
         const vaultId = v4()
-        const mockVault = new Vault(vaultId, 'owner')
+        const mockVault = new Vault(vaultId, 'name', 'owner')
         mockVault.addCredentials(credentials)
         vaultRepository.mockedVaultList.push(mockVault)
         jest.spyOn(vaultRepository, 'saveVault')

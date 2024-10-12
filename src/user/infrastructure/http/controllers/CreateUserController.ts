@@ -15,10 +15,11 @@ export class CreateUserController implements IExpressController {
 
   async handleRequest (req: Request, res: Response) {
     const { email, username, password } = req.body
+    const defaultVaultName = 'Private vault'
 
     try {
       const user = await this.userCreator.run({ email, username, password })
-      const vault = await this.vaultCreator.run(user.getId)
+      const vault = await this.vaultCreator.run(user.getId, defaultVaultName)
       void sendEmail([email], 'Welcome to Password Manager', '<h3>Your account has been created succesfully</h3>')
       return res.status(201).json({
         status: 'Success',

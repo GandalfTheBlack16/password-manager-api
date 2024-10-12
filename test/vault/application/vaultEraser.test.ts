@@ -26,9 +26,9 @@ describe('Vault delete use-case', () => {
     it('should delete a vault', async () => {
         const selectedId = uuid()
         vaultRepository.mockedVaultList.push(
-            new Vault(uuid(), 'user1'),
-            new Vault(uuid(), 'user2'),
-            new Vault(selectedId, 'selectedUser')
+            new Vault(uuid(), 'name', 'user1'),
+            new Vault(uuid(), 'name', 'user2'),
+            new Vault(selectedId, 'name', 'selectedUser')
         )
         await vaultEraser.run({ vaultId: selectedId })
         expect(vaultRepository.mockedVaultList.length).toBe(2)

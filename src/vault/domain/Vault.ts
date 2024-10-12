@@ -1,19 +1,23 @@
 import { VaultId } from './valueObjects/VaultId.js'
 import { type Credential } from './Credential.js'
 import { CredentialIdMismathchingException } from './exceptions/CredentialIdMismatchingException.js'
+import { InvalidNameException } from './exceptions/InvalidNameException.js'
 
 export class Vault {
   private readonly id: VaultId
   private readonly owner: string
+  private name: string
   private lastModified: Date
   private credentials: Credential[]
 
   constructor (
     id: string,
+    name: string,
     owner: string,
     lastModified?: Date
   ) {
     this.id = new VaultId(id)
+    this.name = name
     this.owner = owner
     this.lastModified = lastModified ?? new Date()
     this.credentials = []
@@ -21,6 +25,10 @@ export class Vault {
 
   get getId (): string {
     return this.id.getValue
+  }
+
+  get getName (): string {
+    return this.name
   }
 
   get getOwner (): string {
@@ -33,6 +41,13 @@ export class Vault {
 
   get getLastModified (): Date {
     return this.lastModified
+  }
+
+  updateName (name: string): void {
+    if (name.length < 4 || name.length > 24) {
+      throw new InvalidNameException(name)
+    }
+    this.name = name
   }
 
   updateLastModified (): void {

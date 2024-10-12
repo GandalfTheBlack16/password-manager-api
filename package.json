@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "test:feature": "jest --only-changed",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "dev": "nodemon --exec node --loader ts-node/esm src/index.ts",

@@ -4,6 +4,7 @@ import { MongoUserRepository } from './db/repositories/MongoUserRepository.js'
 import { UserFinder } from '../application/UserFinder.js'
 import { AvailableUserController } from './http/controllers/AvailableUsersController.js'
 import { LoginController } from './http/controllers/LoginController.js'
+import { GitHubCallbackController } from './http/controllers/GitHubCallbackController.js'
 import { UserLogin } from '../application/UserLogin.js'
 import { vaultCreator, vaultEraser } from '../../vault/infrastructure/dependencies.js'
 import { DeleteUserController } from './http/controllers/DeleteUserController.js'
@@ -28,6 +29,7 @@ const userPasswordUpdater = new UserPasswordUpdater(userRepository)
 const createUserController = new CreateUserController(userCreator, vaultCreator)
 const availableUsersController = new AvailableUserController(userListFinder)
 const loginController = new LoginController(userLogin)
+const gitHubCallbackController = new GitHubCallbackController()
 const deleteUserController = new DeleteUserController(userEraser, vaultEraser)
 const updateUserController = new UpdateUserController(userUpdater)
 const changeUserPasswordController = new ChangeUserPasswordController(userPasswordUpdater)
@@ -38,6 +40,7 @@ export {
   createUserController,
   availableUsersController,
   loginController,
+  gitHubCallbackController,
   deleteUserController,
   updateUserController,
   changeUserPasswordController,

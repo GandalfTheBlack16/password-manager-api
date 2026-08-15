@@ -19,6 +19,25 @@ const UserSchema = new Schema({
     type: String,
     required: true
   }
+  ,
+  provider: {
+    type: String,
+    required: false
+  },
+  githubId: {
+    type: String,
+    required: false,
+    unique: true,
+    sparse: true
+  },
+  avatar: {
+    type: String,
+    required: false
+  },
+  name: {
+    type: String,
+    required: false
+  }
 })
 
 export const UserModel = model('User', UserSchema)

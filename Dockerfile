@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.18
+FROM node:22.23-alpine3.24
 
 RUN ["npm", "i", "-g", "pnpm"]
 
